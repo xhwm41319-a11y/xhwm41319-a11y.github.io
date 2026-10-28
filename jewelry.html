@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="icon" href="data:," />
+    <title>Yiwu Jewelry Pack — 5,179 Shops, 13,489 Products, $9.90</title>
+    <meta name="description" content="The complete jewelry section of Yiwu International Trade City as a downloadable catalog: 5,179 shops with stall numbers, 13,489 product listings — every product with photo, wholesale price and MOQ. One-time $9.90, delivered by email." />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Yiwu Jewelry Pack — the whole market, in one file" />
+    <meta property="og:description" content="5,179 jewelry shops · 13,489 products with photo, price & MOQ · $9.90 one-time · delivered to your email." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --navy-950: #060d1d;
+        --navy-900: #0a1730;
+        --navy-850: #0d1d3d;
+        --navy-800: #12264d;
+        --navy-700: #1b3465;
+        --line: rgba(148, 178, 232, 0.16);
+        --line-strong: rgba(148, 178, 232, 0.3);
+        --gold: #e3b34c;
+        --gold-bright: #f2cd72;
+        --gold-deep: #b9862c;
+        --ink: #f2f5fb;
+        --ink-soft: #c3cfe4;
+        --ink-mute: #8fa1c0;
+        --wa: #25d366;
+        --wa-deep: #128c4b;
+        --radius: 14px;
+        --font: "Libre Franklin", system-ui, -apple-system, "Segoe UI", sans-serif;
+        --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        font-family: var(--font);
+        background: var(--navy-950);
+        color: var(--ink);
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+      }
+      img { display: block; max-width: 100%; }
+      a { color: inherit; }
+      .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+
+      /* ---------- top bar ---------- */
+      .topbar {
+        position: absolute; top: 0; left: 0; right: 0; z-index: 5;
+      }
+      .topbar .wrap {
+        display: flex; align-items: center; justify-content: space-between;
+        padding-top: 16px; padding-bottom: 16px;
+      }
+      .brand { font-weight: 800; letter-spacing: 0.14em; font-size: 13px; text-transform: uppercase; }
+      .brand span { color: var(--gold); }
+      .brand small { display: block; letter-spacing: 0.22em; font-size: 10px; color: var(--ink-soft); font-weight: 600; margin-top: 2px; }
+      .topbar-wa {
+        display: inline-flex; align-items: center; gap: 7px;
+        font-size: 13px; font-weight: 700; text-decoration: none;
+        border: 1px solid var(--line-strong); border-radius: 999px;
+        padding: 7px 13px; background: rgba(6, 13, 29, 0.55); backdrop-filter: blur(6px);
+      }
+      .topbar-wa svg { width: 15px; height: 15px; fill: var(--wa); flex: none; }
+
+      /* ---------- hero ---------- */
+      .hero { position: relative; background: var(--navy-900); overflow: hidden; }
+      .hero-photo { position: absolute; inset: 0; }
+      .hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 38%; }
+      .hero-shade {
+        position: absolute; inset: 0;
+        background:
+          linear-gradient(180deg, rgba(6,13,29,0.72) 0%, rgba(6,13,29,0.42) 34%, rgba(6,13,29,0.66) 68%, var(--navy-950) 100%),
+          linear-gradient(96deg, rgba(6,13,29,0.88) 0%, rgba(6,13,29,0.45) 55%, rgba(6,13,29,0.15) 100%);
+      }
+      .hero-inner { position: relative; padding: 108px 0 46px; }
+      .hero-kicker {
+        display: inline-block; font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.14em;
+        color: var(--gold-bright); border: 1px solid rgba(227,179,76,0.45);
+        padding: 6px 11px; border-radius: 4px; background: rgba(6,13,29,0.55);
+        text-transform: uppercase;
+      }
+      .hero h1 {
+        margin: 20px 0 0; font-size: clamp(34px, 6.4vw, 62px); line-height: 1.04;
+        font-weight: 900; letter-spacing: -0.015em; max-width: 13.5em;
+      }
+      .hero h1 em { font-style: normal; color: var(--gold); }
+      .hero-sub { margin: 18px 0 0; font-size: clamp(15.5px, 2.2vw, 18.5px); color: var(--ink-soft); max-width: 36em; }
+      .hero-sub strong { color: var(--ink); }
+      .hero-ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; align-items: stretch; }
+      .btn {
+        display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+        text-decoration: none; font-weight: 800; font-size: 16px;
+        border-radius: 10px; padding: 15px 24px; line-height: 1.15; text-align: center;
+        transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+      }
+      .btn:active { transform: translateY(1px); }
+      .btn-buy {
+        background: linear-gradient(180deg, var(--gold-bright), var(--gold) 55%, var(--gold-deep));
+        color: #221806; box-shadow: 0 10px 28px rgba(227, 179, 76, 0.28);
+      }
+      .btn-buy:hover { box-shadow: 0 12px 34px rgba(227, 179, 76, 0.4); }
+      .btn-buy .price { font-family: var(--mono); font-weight: 600; }
+      .btn-wa {
+        background: rgba(10, 23, 48, 0.72); color: var(--ink);
+        border: 1px solid var(--line-strong); backdrop-filter: blur(6px);
+      }
+      .btn-wa svg { width: 19px; height: 19px; fill: var(--wa); flex: none; }
+      .hero-note { margin: 14px 0 0; font-size: 13px; color: var(--ink-mute); }
+      .hero-note b { color: var(--ink-soft); font-weight: 600; }
+
+      /* ---------- stat strip ---------- */
+      .stats { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--navy-900); }
+      .stats .wrap {
+        display: grid; grid-template-columns: repeat(4, 1fr);
+      }
+      .stat { padding: 22px 18px 20px; border-left: 1px solid var(--line); }
+      .stat:first-child { border-left: none; padding-left: 0; }
+      .stat .num { font-family: var(--mono); font-size: clamp(24px, 3.6vw, 36px); font-weight: 600; color: var(--gold-bright); letter-spacing: -0.02em; }
+      .stat .lbl { margin-top: 4px; font-size: 12.5px; color: var(--ink-mute); line-height: 1.4; }
+
+      /* ---------- sections ---------- */
+      section.block { padding: 64px 0; }
+      .sec-head { max-width: 44em; }
+      .sec-head h2 { margin: 0; font-size: clamp(26px, 4vw, 38px); font-weight: 900; letter-spacing: -0.01em; line-height: 1.12; }
+      .sec-head p { margin: 12px 0 0; color: var(--ink-soft); font-size: 16.5px; }
+
+      .inside { margin-top: 38px; border-top: 1px solid var(--line); }
+      .inside-row {
+        display: grid; grid-template-columns: 74px 1fr; gap: 6px 20px;
+        padding: 26px 0; border-bottom: 1px solid var(--line);
+      }
+      .inside-row .no {
+        font-family: var(--mono); font-size: 15px; color: var(--gold);
+        border: 1px solid rgba(227,179,76,0.4); border-radius: 8px;
+        width: 46px; height: 46px; display: flex; align-items: center; justify-content: center;
+      }
+      .inside-row h3 { margin: 2px 0 0; font-size: 19px; font-weight: 800; }
+      .inside-row p { margin: 7px 0 0; color: var(--ink-soft); font-size: 15.5px; max-width: 46em; }
+      .inside-row p b { color: var(--ink); }
+
+      /* ---------- gallery ---------- */
+      .gallery { background: var(--navy-900); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+      .gallery-grid { display: grid; grid-template-columns: 1.35fr 1fr 1fr; gap: 14px; margin-top: 34px; }
+      .gallery-grid figure { margin: 0; border-radius: var(--radius); overflow: hidden; position: relative; border: 1px solid var(--line); }
+      .gallery-grid img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4 / 3; }
+      .gallery-grid figcaption {
+        position: absolute; left: 0; right: 0; bottom: 0; padding: 26px 14px 11px;
+        font-size: 12.5px; color: var(--ink-soft);
+        background: linear-gradient(180deg, transparent, rgba(6,13,29,0.88));
+      }
+      .gallery-note { margin: 16px 0 0; font-size: 13px; color: var(--ink-mute); }
+
+      /* ---------- steps ---------- */
+      .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 36px; }
+      .step { background: var(--navy-850); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px 22px; }
+      .step .k { font-family: var(--mono); font-size: 12px; letter-spacing: 0.16em; color: var(--gold); text-transform: uppercase; }
+      .step h3 { margin: 10px 0 0; font-size: 18px; font-weight: 800; }
+      .step p { margin: 8px 0 0; color: var(--ink-soft); font-size: 14.5px; }
+
+      /* ---------- ground team ---------- */
+      .ground { background: linear-gradient(180deg, var(--navy-900), var(--navy-850)); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+      .ground-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 40px; align-items: start; }
+      .rates { border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 22px; background: rgba(6,13,29,0.4); }
+      .rates h3 { margin: 0; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); font-weight: 700; }
+      .rates dl { margin: 14px 0 0; }
+      .rates .rrow { display: flex; justify-content: space-between; gap: 16px; padding: 11px 0; border-top: 1px solid var(--line); }
+      .rates .rrow:first-child { border-top: none; padding-top: 2px; }
+      .rates dt { color: var(--ink-soft); font-size: 14.5px; }
+      .rates dd { margin: 0; font-family: var(--mono); font-weight: 600; color: var(--gold-bright); font-size: 14.5px; white-space: nowrap; }
+
+      /* ---------- FAQ ---------- */
+      .faq-list { margin-top: 32px; border-top: 1px solid var(--line); }
+      details.faq { border-bottom: 1px solid var(--line); }
+      details.faq summary {
+        cursor: pointer; list-style: none; padding: 19px 34px 19px 0; position: relative;
+        font-weight: 700; font-size: 16.5px;
+      }
+      details.faq summary::-webkit-details-marker { display: none; }
+      details.faq summary::after {
+        content: "+"; position: absolute; right: 4px; top: 50%; transform: translateY(-50%);
+        font-family: var(--mono); font-size: 22px; color: var(--gold); font-weight: 400;
+      }
+      details.faq[open ] summary::after { content: "–"; }
+      details.faq .a { padding: 0 34px 20px 0; color: var(--ink-soft); font-size: 15px; max-width: 46em; }
+      details.faq .a a { color: var(--gold-bright); }
+
+      /* ---------- final CTA ---------- */
+      .final {
+        background: radial-gradient(120% 160% at 50% 0%, var(--navy-700) 0%, var(--navy-900) 62%);
+        border-top: 1px solid var(--line); text-align: center;
+      }
+      .final h2 { margin: 0 auto; font-size: clamp(27px, 4.6vw, 42px); font-weight: 900; line-height: 1.12; max-width: 18em; }
+      .final .price-line { margin: 18px 0 0; font-family: var(--mono); font-size: 15px; color: var(--ink-soft); }
+      .final .price-line b { color: var(--gold-bright); font-size: 20px; }
+      .final .hero-ctas { justify-content: center; }
+
+      /* ---------- footer ---------- */
+      footer { padding: 40px 0 110px; border-top: 1px solid var(--line); background: var(--navy-950); }
+      .foot-grid { display: flex; flex-wrap: wrap; gap: 18px 44px; justify-content: space-between; }
+      footer .co { font-weight: 800; font-size: 15px; }
+      footer .co-cn { color: var(--ink-soft); font-weight: 500; margin-top: 3px; font-size: 14px; }
+      footer address { font-style: normal; color: var(--ink-mute); font-size: 13.5px; line-height: 1.7; }
+      footer address a { color: var(--ink-soft); text-decoration: none; }
+      footer address a:hover { color: var(--gold-bright); }
+      .foot-fine { margin-top: 26px; padding-top: 18px; border-top: 1px solid var(--line); font-size: 12.5px; color: var(--ink-mute); line-height: 1.65; }
+
+      /* ---------- sticky buy bar ---------- */
+      .stickybar {
+        position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+        background: rgba(6, 13, 29, 0.92); backdrop-filter: blur(10px);
+        border-top: 1px solid var(--line-strong);
+        transform: translateY(110%); transition: transform 0.28s ease;
+        padding-bottom: env(safe-area-inset-bottom);
+      }
+      .stickybar.show { transform: translateY(0); }
+      .stickybar .wrap { display: flex; align-items: center; gap: 14px; padding-top: 11px; padding-bottom: 11px; }
+      .stickybar .sb-info { min-width: 0; }
+      .stickybar .sb-name { font-weight: 800; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .stickybar .sb-price { font-family: var(--mono); color: var(--gold-bright); font-size: 13px; }
+      .stickybar .sb-price s { color: var(--ink-mute); }
+      .stickybar .btn { margin-left: auto; padding: 12px 20px; font-size: 15px; flex: none; }
+      .stickybar .sb-wa {
+        flex: none; width: 44px; height: 44px; border-radius: 10px;
+        display: inline-flex; align-items: center; justify-content: center;
+        border: 1px solid var(--line-strong); background: var(--navy-850);
+      }
+      .stickybar .sb-wa svg { width: 21px; height: 21px; fill: var(--wa); }
+
+      /* ---------- reveal ---------- */
+      .rv { opacity: 0; transform: translateY(14px); transition: opacity 0.55s ease, transform 0.55s ease; }
+      .rv.in { opacity: 1; transform: none; }
+      @media print {
+        .rv { opacity: 1; transform: none; }
+        .stickybar, .topbar-wa { display: none; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        .rv { opacity: 1; transform: none; transition: none; }
+        .stickybar { transition: none; }
+        .btn { transition: none; }
+      }
+
+      /* ---------- responsive ---------- */
+      @media (max-width: 860px) {
+        .gallery-grid { grid-template-columns: 1fr 1fr; }
+        .gallery-grid figure:first-child { grid-column: 1 / -1; }
+        .gallery-grid figure:first-child img { aspect-ratio: 16 / 9; }
+        .steps { grid-template-columns: 1fr; }
+        .ground-grid { grid-template-columns: 1fr; gap: 26px; }
+      }
+      @media (max-width: 640px) {
+        .stats .wrap { grid-template-columns: 1fr 1fr; padding: 0; }
+        .stat { padding: 18px 20px 16px; border-top: 1px solid var(--line); }
+        .stat:first-child { padding-left: 20px; }
+        .stat:nth-child(-n+2) { border-top: none; }
+        .stat:nth-child(odd) { border-left: none; }
+        .hero-inner { padding-top: 96px; }
+        .hero-ctas .btn { flex: 1 1 100%; }
+        section.block { padding: 48px 0; }
+        .inside-row { grid-template-columns: 46px 1fr; gap: 4px 14px; }
+        .topbar-wa { flex: none; white-space: nowrap; }
+        .topbar-wa .wa-num { display: none; }
+        .brand { min-width: 0; }
+        .brand small { letter-spacing: 0.14em; }
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- ================= HERO ================= -->
+    <header class="hero">
+      <div class="hero-photo" aria-hidden="true">
+        <img src="assets/hero.jpg" alt="" fetchpriority="high" />
+      </div>
+      <div class="hero-shade" aria-hidden="true"></div>
+
+      <div class="topbar">
+        <div class="wrap">
+          <div class="brand">Yiwu <span>Yinghuo</span><small>International Trade Co., Ltd.</small></div>
+          <a class="topbar-wa" href="https://wa.me/8613362927411?text=Hi%2C%20I%27m%20interested%20in%20the%20Yiwu%20Jewelry%20Pack%20(%249.90).%20Please%20send%20me%20the%20details." target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+            <span class="wa-label">WhatsApp us</span><span class="wa-num">+86 133 6292 7411</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="wrap hero-inner">
+        <span class="hero-kicker">Yiwu International Trade City · Jewelry Section · Full Catalog</span>
+        <h1>Every jewelry stall in Yiwu. <em>On your desk today.</em></h1>
+        <p class="hero-sub">
+          The market&rsquo;s complete jewelry section, compiled from the shops&rsquo; own listings on
+          <strong>YiwuGou</strong>, the market&rsquo;s official online platform — <strong>5,179 shops</strong> and
+          <strong>13,489 products</strong>, each with its photo, wholesale price and minimum order quantity.
+          No flight, no hotel, no week of walking the aisles.
+        </p>
+        <div class="hero-ctas">
+          <a class="btn btn-buy" href="https://yiwuyinghuo.com/?buy=jewelry" target="_blank" rel="noopener">
+            Get the Jewelry Pack <span class="price">$9.90</span>
+          </a>
+          <a class="btn btn-wa" href="https://wa.me/8613362927411?text=Hi%2C%20I%27m%20interested%20in%20the%20Yiwu%20Jewelry%20Pack%20(%249.90).%20Please%20send%20me%20the%20details." target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+            Ask on WhatsApp
+          </a>
+        </div>
+        <p class="hero-note">One-time payment in USDT · <b>Download link sent to your email automatically</b> after payment · Spreadsheet + product image files</p>
+      </div>
+    </header>
+
+    <!-- ================= STATS ================= -->
+    <div class="stats" role="region" aria-label="Pack contents in numbers">
+      <div class="wrap">
+        <div class="stat"><div class="num">5,179</div><div class="lbl">jewelry shops, each with its market stall number</div></div>
+        <div class="stat"><div class="num">13,489</div><div class="lbl">product listings — the complete section, nothing sampled out</div></div>
+        <div class="stat"><div class="num">3 / 3</div><div class="lbl">photo, wholesale price &amp; MOQ included on every product</div></div>
+        <div class="stat"><div class="num">$9.90</div><div class="lbl">one-time. No subscription, no per-shop fees</div></div>
+      </div>
+    </div>
+
+    <main>
+      <!-- ================= WHAT'S INSIDE ================= -->
+      <section class="block">
+        <div class="wrap">
+          <div class="sec-head rv">
+            <h2>What&rsquo;s inside the pack</h2>
+            <p>Built for buyers who source jewelry from Yiwu but can&rsquo;t walk the market for every restock, trend check or new line.</p>
+          </div>
+          <div class="inside">
+            <div class="inside-row rv">
+              <div class="no">01</div>
+              <div>
+                <h3>Every shop — with its exact stall number</h3>
+                <p>All <b>5,179 jewelry shops</b> in the section, each listed with the stall number it trades from inside Yiwu International Trade City. Shortlist suppliers from home, then walk straight to the right booth on your next trip — or hand the stall number to our team and we&rsquo;ll stand in front of it for you.</p>
+              </div>
+            </div>
+            <div class="inside-row rv">
+              <div class="no">02</div>
+              <div>
+                <h3>Every product — photo, price and MOQ, no exceptions</h3>
+                <p><b>13,489 product listings</b>, and every single one carries all three things a buyer needs to judge it: a <b>product photo</b>, the <b>wholesale price</b> and the <b>minimum order quantity</b>. No teaser rows, no &ldquo;price on request&rdquo;, no sampled subset — the full section, as the shops themselves list it.</p>
+              </div>
+            </div>
+            <div class="inside-row rv">
+              <div class="no">03</div>
+              <div>
+                <h3>Images included as files — browse offline, share with your team</h3>
+                <p>The pack is a spreadsheet plus the product image files themselves, not a folder of links that die next season. Open it on a plane, filter it by price or MOQ, forward the styles you like to your staff or your customers.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= GALLERY ================= -->
+      <section class="block gallery">
+        <div class="wrap">
+          <div class="sec-head rv">
+            <h2>This is the section you&rsquo;re buying</h2>
+            <p>Wall-to-wall carded earrings, necklaces, stainless steel and silver lines — the jewelry floors of Yiwu International Trade City, where the pack&rsquo;s 5,179 shops trade.</p>
+          </div>
+          <div class="gallery-grid">
+            <figure class="rv">
+              <img src="assets/hero.jpg" alt="A silver 925 jewelry stall inside Yiwu market, its walls covered with carded earrings and necklaces" loading="lazy" />
+              <figcaption>A 925 silver jewelry stall, Yiwu International Trade City</figcaption>
+            </figure>
+            <figure class="rv">
+              <img src="assets/earrings-1.jpg" alt="A shop display wall packed with hundreds of carded fashion earrings in gold and pearl styles" loading="lazy" />
+              <figcaption>Fashion earring walls — hundreds of styles per shop</figcaption>
+            </figure>
+            <figure class="rv">
+              <img src="assets/earrings-2.jpg" alt="Rows of crystal and drop earrings hanging on display cards in a Yiwu jewelry shop" loading="lazy" />
+              <figcaption>Crystal &amp; drop earring displays, listed shop by shop</figcaption>
+            </figure>
+          </div>
+          <p class="gallery-note">Photos: jewelry stalls and shop displays in the Yiwu market jewelry section. The pack covers this section&rsquo;s shops as listed on YiwuGou.</p>
+          <figure class="rv" style="margin:26px 0 0; border-radius:14px; overflow:hidden; border:1px solid var(--line); position:relative;">
+            <img src="assets/stall-steel.jpg" alt="A stainless steel jewelry wholesale stall in Yiwu market, shelves stacked with packaged jewelry" loading="lazy" style="width:100%; aspect-ratio:21/9; object-fit:cover; object-position:center 30%;" />
+            <figcaption style="position:absolute; left:0; right:0; bottom:0; padding:26px 14px 11px; font-size:12.5px; color:var(--ink-soft); background:linear-gradient(180deg, transparent, rgba(6,13,29,0.88));">A stainless steel jewelry stall — one of 5,179 shops in the pack</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- ================= HOW IT WORKS ================= -->
+      <section class="block">
+        <div class="wrap">
+          <div class="sec-head rv">
+            <h2>From this page to your inbox in minutes</h2>
+          </div>
+          <div class="steps">
+            <div class="step rv">
+              <div class="k">Step 1</div>
+              <h3>Tap &ldquo;Get the Jewelry Pack&rdquo;</h3>
+              <p>The button opens the jewelry checkout on our official store, yiwuyinghuo.com — product and price already selected.</p>
+            </div>
+            <div class="step rv">
+              <div class="k">Step 2</div>
+              <h3>Pay 9.90 USDT, one time</h3>
+              <p>Checkout takes USDT (Solana network). No account, no subscription — one payment and the pack is yours to keep.</p>
+            </div>
+            <div class="step rv">
+              <div class="k">Step 3</div>
+              <h3>Download link lands in your email</h3>
+              <p>Delivery is automatic: as soon as the payment confirms, the download link is emailed to you. Questions before or after? Our Yiwu team answers on WhatsApp.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= GROUND TEAM ================= -->
+      <section class="block ground">
+        <div class="wrap ground-grid">
+          <div class="rv">
+            <div class="sec-head">
+              <h2>Found a shop you like? We&rsquo;re standing in the same city.</h2>
+              <p>The pack is a digital product from a real, on-the-ground trade company — Yiwu Yinghuo International Trade Co., Ltd., based in Yiwu. When a listing turns into a real order, our team can visit the stall, verify the supplier, inspect the goods and coordinate the shipment.</p>
+            </div>
+            <div class="hero-ctas">
+              <a class="btn btn-wa" href="https://wa.me/8613362927411?text=Hi%2C%20I%20saw%20the%20Yiwu%20Jewelry%20Pack%20page.%20I%27d%20like%20to%20ask%20about%20a%20shop%20visit%20%2F%20inspection." target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+                Talk to the Yiwu team
+              </a>
+            </div>
+          </div>
+          <aside class="rates rv" aria-label="Published service rates">
+            <h3>Published rates — ground services</h3>
+            <dl>
+              <div class="rrow"><dt>On-site work (stall visit, checks)</dt><dd>from $25 / hr</dd></div>
+              <div class="rrow"><dt>Full person-day on site</dt><dd>from $100</dd></div>
+              <div class="rrow"><dt>Order coordination</dt><dd>3% of order value</dd></div>
+              <div class="rrow"><dt>The Jewelry Pack</dt><dd>$9.90 one-time</dd></div>
+            </dl>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ================= FAQ ================= -->
+      <section class="block">
+        <div class="wrap">
+          <div class="sec-head rv"><h2>Before you buy</h2></div>
+          <div class="faq-list">
+            <details class="faq">
+              <summary>What exactly do I receive?</summary>
+              <div class="a">A downloadable pack for the jewelry category of Yiwu market: a spreadsheet covering 5,179 shops — each with its stall number — and 13,489 product listings, every product with its photo, wholesale price and minimum order quantity, plus the product image files. It is compiled from the shops&rsquo; own listings on YiwuGou, the official online platform of Yiwu International Trade City.</div>
+            </details>
+            <details class="faq">
+              <summary>How do I pay, and how fast is delivery?</summary>
+              <div class="a">Checkout is on our official store and takes USDT on the Solana network — 9.90 USDT, one time. Delivery is automatic: the download link is sent to your email as soon as the payment confirms.</div>
+            </details>
+            <details class="faq">
+              <summary>I don&rsquo;t use USDT. Can I still get the pack?</summary>
+              <div class="a">Message us on WhatsApp at <a href="https://wa.me/8613362927411?text=Hi%2C%20I%27d%20like%20the%20Yiwu%20Jewelry%20Pack%20but%20I%20don%27t%20use%20USDT." target="_blank" rel="noopener">+86 133 6292 7411</a> and tell us how you&rsquo;d prefer to pay — we&rsquo;ll sort it out with you directly.</div>
+            </details>
+            <details class="faq">
+              <summary>What does the pack not include?</summary>
+              <div class="a">It is business listing data: shops, stall numbers and product listings. It does not include anyone&rsquo;s private phone numbers or personal contact details. To reach a shop, visit its stall in the market — or ask our team in Yiwu to go for you.</div>
+            </details>
+            <details class="faq">
+              <summary>Can you help me actually buy from a shop in the pack?</summary>
+              <div class="a">Yes — that is our day job. We verify suppliers on site, inspect goods before shipment and coordinate orders from our office in Yiwu. On-site work starts at $25/hour or $100 per person-day, and order coordination is 3% of the confirmed order value. Start with a WhatsApp message.</div>
+            </details>
+            <details class="faq">
+              <summary>Do you have packs for other product categories?</summary>
+              <div class="a">Yes — the same catalog exists for 21 categories of the market, from toys and bags to home goods and festive products, each $9.90, plus a bundle of all categories. See the full range at <a href="https://yiwuyinghuo.com" target="_blank" rel="noopener">yiwuyinghuo.com</a>.</div>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= FINAL CTA ================= -->
+      <section class="block final">
+        <div class="wrap rv">
+          <h2>The whole jewelry section of Yiwu market — for less than a taxi ride across it.</h2>
+          <p class="price-line"><b>$9.90</b> &nbsp;one-time · USDT · delivered by email automatically</p>
+          <div class="hero-ctas">
+            <a class="btn btn-buy" href="https://yiwuyinghuo.com/?buy=jewelry" target="_blank" rel="noopener">Get the Jewelry Pack <span class="price">$9.90</span></a>
+            <a class="btn btn-wa" href="https://wa.me/8613362927411?text=Hi%2C%20I%27m%20interested%20in%20the%20Yiwu%20Jewelry%20Pack%20(%249.90).%20Please%20send%20me%20the%20details." target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+              Ask on WhatsApp
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+    <footer>
+      <div class="wrap">
+        <div class="foot-grid">
+          <div>
+            <div class="co">Yiwu Yinghuo International Trade Co., Ltd.</div>
+            <div class="co-cn">义乌市迎火国际贸易有限公司</div>
+          </div>
+          <address>
+            6F Unit 1 Bldg A, Zijin Fifth District, Futian, Yiwu, China<br />
+            Unified Social Credit Code: 91330782MADW4L2YXG<br />
+            WhatsApp: <a href="https://wa.me/8613362927411" target="_blank" rel="noopener">+86 133 6292 7411</a> ·
+            Store: <a href="https://yiwuyinghuo.com" target="_blank" rel="noopener">yiwuyinghuo.com</a>
+          </address>
+        </div>
+        <p class="foot-fine">
+          Pack data is compiled from public business listings on YiwuGou, the official online platform of Yiwu International Trade City;
+          listings belong to their respective shops and prices and availability can change at the stall. Product photos © their respective shops.
+          This page advertises the Jewelry Pack only; ground services are quoted separately at the published rates above.
+        </p>
+      </div>
+    </footer>
+
+    <!-- ================= STICKY BAR ================= -->
+    <div class="stickybar" id="stickybar" aria-hidden="true">
+      <div class="wrap">
+        <div class="sb-info">
+          <div class="sb-name">Yiwu Jewelry Pack</div>
+          <div class="sb-price">$9.90 · one-time</div>
+        </div>
+        <a class="sb-wa" href="https://wa.me/8613362927411?text=Hi%2C%20I%27m%20interested%20in%20the%20Yiwu%20Jewelry%20Pack%20(%249.90).%20Please%20send%20me%20the%20details." target="_blank" rel="noopener" aria-label="Ask about the Jewelry Pack on WhatsApp" tabindex="-1">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+        </a>
+        <a class="btn btn-buy" href="https://yiwuyinghuo.com/?buy=jewelry" target="_blank" rel="noopener" tabindex="-1">Get it — $9.90</a>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        // Reveal-on-scroll (subtle, respects reduced motion via CSS)
+        var rvEls = document.querySelectorAll(".rv");
+        if ("IntersectionObserver" in window) {
+          var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) {
+              if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+            });
+          }, { threshold: 0.12 });
+          rvEls.forEach(function (el) { io.observe(el); });
+          // Failsafe: never leave content hidden (anchor jumps, print, capture tools)
+          setTimeout(function () {
+            rvEls.forEach(function (el) { el.classList.add("in"); });
+          }, 1200);
+        } else {
+          rvEls.forEach(function (el) { el.classList.add("in"); });
+        }
+
+        // Sticky buy bar: show after the hero, hide near the final CTA / footer
+        var bar = document.getElementById("stickybar");
+        var hero = document.querySelector(".hero");
+        var finalCta = document.querySelector(".final");
+        function onScroll() {
+          var past = window.scrollY > hero.offsetHeight * 0.75;
+          var nearEnd = false;
+          if (finalCta) {
+            var r = finalCta.getBoundingClientRect();
+            nearEnd = r.top < window.innerHeight && r.bottom > 0;
+          }
+          var show = past && !nearEnd;
+          bar.classList.toggle("show", show);
+          bar.setAttribute("aria-hidden", show ? "false" : "true");
+          bar.querySelectorAll("a").forEach(function (a) { a.tabIndex = show ? 0 : -1; });
+        }
+        window.addEventListener("scroll", onScroll, { passive: true });
+        window.addEventListener("resize", onScroll);
+        onScroll();
+      })();
+    </script>
+  </body>
+</html>
