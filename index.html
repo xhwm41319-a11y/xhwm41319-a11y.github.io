@@ -783,6 +783,7 @@
   cursor: pointer;
 }
 </style>
+<script src="https://www.paypal.com/sdk/js?client-id=BAACcdsAUujk8GGaxCLu9f7ZzR0GkGGFRN1qhzXs525svZnWw5xhzNr__yy83UvONWN3N3IXSqiI4H4ZlU&currency=USD"></script>
 </head>
 <body>
 
@@ -1822,9 +1823,10 @@
           <button type="button" id="btn-verify-pay" class="btn-pay-confirm" onclick="submitAndWatchPayment()">
             我已完成转账 / Check Payment
           </button>
-          <div class="paypal-placeholder">
-            <span>支持 PayPal 信用卡？<button type="button" class="btn-link-disabled" disabled>PayPal 支付 (接入中)</button></span>
+          <div class="checkout-divider" style="margin: 16px 0 12px; text-align: center; position: relative; border-top: 1px dashed #cbd5e1; padding-top: 12px;">
+            <span style="background: #ffffff; padding: 0 8px; color: #64748b; font-size: 12px; font-weight: 600;">或使用 PayPal / 信用卡支付 (Live)</span>
           </div>
+          <div id="paypal-button-container" style="min-height: 45px;"></div>
         </div>
       </div>
     </div>
@@ -1908,6 +1910,7 @@ function openUsdtCheckout(sku, title, priceUsdt) {
   document.getElementById("checkout-step-success").style.display = "none";
 
   document.getElementById("usdt-checkout-modal").style.display = "flex";
+  renderPayPalButton();
 }
 
 function closeUsdtCheckout() {
@@ -1916,6 +1919,85 @@ function closeUsdtCheckout() {
     currentOrderContext.pollTimer = null;
   }
   document.getElementById("usdt-checkout-modal").style.display = "none";
+}
+
+function renderPayPalButton() {
+  const container = document.getElementById("paypal-button-container");
+  if (!container) return;
+  if (container.dataset.rendered === "true") return;
+  if (typeof paypal === "undefined") {
+    console.warn("PayPal SDK not loaded yet");
+    return;
+  }
+  container.dataset.rendered = "true";
+  paypal.Buttons({
+    style: {
+      layout: 'vertical',
+      color: 'gold',
+      shape: 'rect',
+      label: 'paypal',
+      height: 40
+    },
+    createOrder: async function(data, actions) {
+      const emailInput = document.getElementById("buyer-email");
+      const email = emailInput.value.trim();
+      if (!email || !email.includes("@") || !email.includes(".")) {
+        showCheckoutNotice("请先在上方输入接收资料包的电子邮箱，再点击 PayPal 支付！");
+        emailInput.focus();
+        throw new Error("Missing email");
+      }
+      document.getElementById("checkout-notice").style.display = "none";
+
+      const resp = await fetch(`${API_BASE}/api/paypal/create-order`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          sku: currentOrderContext.sku,
+          email: email,
+          amount: currentOrderContext.priceUsdt
+        })
+      });
+      if (!resp.ok) {
+        const errData = await resp.json().catch(() => ({}));
+        throw new Error(errData.detail || `创建 PayPal 订单失败: HTTP ${resp.status}`);
+      }
+      const orderData = await resp.json();
+      currentOrderContext.orderId = orderData.order_id;
+      return orderData.paypal_order_id;
+    },
+    onApprove: async function(data, actions) {
+      document.getElementById("checkout-step-pay").style.display = "none";
+      document.getElementById("checkout-step-watching").style.display = "block";
+      const h4 = document.querySelector("#checkout-step-watching h4");
+      if (h4) h4.textContent = "正在确认 PayPal 支付入账...";
+      const hint = document.querySelector("#checkout-step-watching .watching-hint");
+      if (hint) hint.textContent = "系统正与 PayPal 生产收银台核销入账并为您签发加密下载链接...";
+
+      try {
+        const captureResp = await fetch(`${API_BASE}/api/paypal/capture-order`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            order_id: currentOrderContext.orderId,
+            paypal_order_id: data.orderID
+          })
+        });
+        const captureData = await captureResp.json();
+        if (captureData.status === "PAID" || captureData.paid) {
+          showPaymentSuccess(document.getElementById("buyer-email").value.trim(), captureData.download_url, captureData.tx_hash);
+        } else {
+          throw new Error(captureData.error || "核销未完成");
+        }
+      } catch (err) {
+        console.error("PayPal 捕获失败:", err);
+        alert("PayPal 支付已完成，系统正在后台发货，若未收到邮件请联系客服：orders@mail.yiwuyinghuo.com");
+      }
+    },
+    onError: function(err) {
+      console.error("PayPal Error:", err);
+      showCheckoutNotice("PayPal 结账遇到问题，请重试或使用 USDT (Solana) 支付。");
+    }
+  }).render('#paypal-button-container');
 }
 
 function copyWalletAddress() {
