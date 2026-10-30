@@ -1,0 +1,1581 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="data:," />
+    <title>Free Freight Assistant · Free International Freight Estimate | Yiwu Yinghuo International Trade</title>
+    <meta name="description" content="Any origin to any destination: FCL/LCL ocean freight, bulk carriers, breakbulk, air freight, express and postal parcels, rail/truck — four-leg cost breakdown, duty and VAT estimates, and export/clearance document checklists — all worked out in one go. Yiwu Yinghuo International Trade Co., Ltd." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+      :root{
+        --bg:#eef2f6; --surface:#ffffff; --surface2:#f6f8fb;
+        --ink:#132a44; --muted:#5d7288; --faint:#8ba0b5;
+        --navy:#0d2b4c; --navy2:#0a213c; --gold:#c08a1e; --gold-soft:#f3e5c6;
+        --line:#d9e2ec; --line2:#c7d3e0;
+        --good:#17724c; --good-bg:#e5f3ec;
+        --warn-bg:#fdf2dd; --warn-ink:#7c5410;
+        --err:#b3372c; --err-bg:#fbeae8;
+        --chip:#e8eef5; --radius:14px;
+        --shadow:0 10px 30px rgba(13,43,76,.10);
+      }
+      @media (prefers-color-scheme: dark){
+        :root{
+          --bg:#081627; --surface:#0f2440; --surface2:#0c1e36;
+          --ink:#e9eff6; --muted:#9db1c6; --faint:#6d849c;
+          --navy:#123a66; --navy2:#0d2b4c; --gold:#d9a83f; --gold-soft:#3a2f14;
+          --line:#22395a; --line2:#2c4a73;
+          --good:#4cc38a; --good-bg:#123528;
+          --warn-bg:#3a2c10; --warn-ink:#eec27a;
+          --err:#ff9d94; --err-bg:#3d1a16;
+          --chip:#1a3355;
+          --shadow:0 10px 30px rgba(0,0,0,.45);
+        }
+      }
+      *{box-sizing:border-box}
+      html{-webkit-text-size-adjust:100%}
+      body{margin:0;background:var(--bg);color:var(--ink);
+        font-family:"Archivo",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+        font-size:15.5px;line-height:1.65;}
+      .num{font-family:"Archivo",sans-serif;font-variant-numeric:tabular-nums}
+      .wrap{max-width:1080px;margin:0 auto;padding:18px 16px 40px}
+
+      /* ---------- stepper ---------- */
+      .stepper{display:flex;align-items:flex-start;gap:0;margin:6px auto 26px;max-width:640px}
+      .stp{display:flex;flex-direction:column;align-items:center;gap:6px;width:86px;text-align:center;flex:none}
+      .stp .n{width:34px;height:34px;border-radius:50%;border:2px solid var(--line2);color:var(--faint);
+        display:flex;align-items:center;justify-content:center;font-weight:700;background:var(--surface);
+        font-family:"Archivo",sans-serif;font-size:15px}
+      .stp .t{font-size:12.5px;color:var(--faint);font-weight:500;white-space:nowrap}
+      .stp.active .n{border-color:var(--gold);background:var(--gold);color:#fff}
+      .stp.active .t{color:var(--ink);font-weight:700}
+      .stp.done .n{border-color:var(--navy);background:var(--navy);color:#fff}
+      .stp.done .t{color:var(--muted)}
+      @media (prefers-color-scheme: dark){ .stp.done .n{background:var(--gold);border-color:var(--gold);color:#12233a} }
+      .bar{flex:1;height:2px;background:var(--line2);margin-top:17px;border-radius:2px}
+      .bar.done{background:var(--gold)}
+
+      /* ---------- generic ---------- */
+      h1{font-size:29px;line-height:1.3;margin:0 0 12px;font-weight:900;letter-spacing:.2px}
+      h1 .hl{color:var(--gold)}
+      .ptitle{font-size:24px;margin-bottom:4px}
+      .lede{color:var(--muted);margin:0 0 20px;font-size:15.5px}
+      .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+        padding:22px;box-shadow:var(--shadow);margin-bottom:16px}
+      .card h2{margin:0 0 6px;font-size:20px;font-weight:900}
+      .card h3{margin:0 0 14px;font-size:16.5px;font-weight:900;display:flex;align-items:center;gap:9px}
+      .card h3 .k{width:24px;height:24px;border-radius:7px;background:var(--navy);color:#fff;flex:none;
+        display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-family:"Archivo",sans-serif}
+      @media (prefers-color-scheme: dark){ .card h3 .k{background:var(--gold);color:#12233a} }
+      .sub{color:var(--muted);margin:0 0 16px;font-size:14px}
+      label.fl{display:block;font-size:13.5px;font-weight:700;margin:0 0 6px}
+      label.fl .req{color:var(--err)}
+      label.fl .opt{color:var(--faint);font-weight:400}
+      input[type=text],input[type=email],input[type=tel],input[type=number],select,textarea{
+        width:100%;height:46px;padding:0 12px;border:1.5px solid var(--line2);border-radius:10px;
+        background:var(--surface);color:var(--ink);font:inherit;font-size:15px;outline:none}
+      textarea{height:auto;padding:10px 12px;resize:vertical}
+      input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-soft)}
+      input.bad,select.bad{border-color:var(--err)}
+      .hint{font-size:12.5px;color:var(--faint);margin-top:5px}
+      .err-msg{display:none;background:var(--err-bg);color:var(--err);border-radius:10px;
+        padding:10px 14px;font-size:14px;margin:12px 0 0;font-weight:500}
+      .err-msg.show{display:block}
+      .btn{appearance:none;border:0;cursor:pointer;font:inherit;font-weight:700;border-radius:11px;
+        padding:13px 22px;display:inline-flex;align-items:center;gap:8px;justify-content:center;text-decoration:none}
+      .btn-gold{background:var(--gold);color:#fff;width:100%;font-size:16.5px;padding:15px 22px}
+      .btn-gold:hover{filter:brightness(1.07)}
+      .btn-navy{background:var(--navy);color:#fff}
+      .btn-ghost{background:transparent;color:var(--muted);border:1.5px solid var(--line2)}
+      .btn-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:6px}
+      .btn-row .grow{flex:1;min-width:200px}
+      .fine{font-size:12.5px;color:var(--faint);margin:12px 0 0;text-align:center}
+
+      /* segmented */
+      .seg{display:flex;background:var(--chip);border-radius:11px;padding:4px;gap:4px}
+      .seg label{flex:1;margin:0}
+      .seg input{width:15px;height:15px;accent-color:var(--gold);margin:0 6px 0 0;vertical-align:-2px}
+      .seg span{display:block;padding:9px 6px;border-radius:8px;
+        font-size:14.5px;font-weight:700;color:var(--muted);cursor:pointer;text-align:center;line-height:1.35}
+      .seg span small{display:block;font-size:12px;font-weight:400;color:var(--faint);margin-top:1px}
+      .seg label:has(input:checked) span{background:var(--surface);color:var(--ink);box-shadow:0 1px 5px rgba(13,43,76,.18)}
+      .seg input:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
+
+      /* chips (cargo flags) */
+      .chips{display:flex;flex-wrap:wrap;gap:9px}
+      .chips label{margin:0}
+      .chips input{width:15px;height:15px;accent-color:var(--gold);margin:0;flex:none}
+      .chips span{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;
+        border:1.5px solid var(--line2);font-size:14px;font-weight:500;color:var(--muted);cursor:pointer;background:var(--surface)}
+      .chips label:has(input:checked) span{border-color:var(--gold);color:var(--ink);background:var(--gold-soft);font-weight:700}
+      .chips input:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
+
+      /* step1 layout */
+      .grid2{display:grid;grid-template-columns:1.05fr .95fr;gap:22px;align-items:start}
+      @media (max-width:820px){ .grid2{grid-template-columns:1fr} h1{font-size:25px} }
+      .gets{list-style:none;margin:0 0 18px;padding:0;display:grid;gap:12px}
+      .gets li{display:flex;gap:11px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);
+        border-radius:12px;padding:13px 15px}
+      .gets .ic{width:34px;height:34px;flex:none;border-radius:9px;background:var(--gold-soft);color:var(--gold);
+        display:flex;align-items:center;justify-content:center}
+      .gets b{display:block;font-size:15px}
+      .gets small{color:var(--muted);font-size:13px;line-height:1.5;display:block}
+      .flowline{position:relative;padding-left:17px;color:var(--muted);font-size:13.5px;font-weight:500}
+      .flowline .dot{position:absolute;left:0;top:8px;width:7px;height:7px;border-radius:50%;background:var(--gold)}
+      .phonegrid{display:grid;grid-template-columns:118px 1fr;gap:9px}
+
+      /* step2 form grids */
+      .fgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+      .fgrid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+      @media (max-width:760px){ .fgrid,.fgrid2{grid-template-columns:1fr} }
+      .field{margin-bottom:14px}
+      .field:last-child{margin-bottom:0}
+      details.calc{border:1.5px dashed var(--line2);border-radius:10px;padding:10px 14px;margin:2px 0 14px}
+      details.calc summary{cursor:pointer;font-size:13.5px;font-weight:700;color:var(--muted)}
+      details.calc .fgrid{margin-top:12px}
+      .termhint{background:var(--surface2);border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-size:13.5px;color:var(--muted);margin-top:10px}
+
+      /* step3 result */
+      .route-line{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px}
+      .route-line .place{font-weight:900;font-size:17px}
+      .route-line .arrow{color:var(--gold);font-weight:900}
+      .badge{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;border-radius:999px;padding:3px 10px}
+      .badge.gold{background:var(--gold-soft);color:var(--warn-ink)}
+      @media (prefers-color-scheme: dark){ .badge.gold{color:var(--gold)} }
+      .badge.line{border:1px solid var(--line2);color:var(--muted)}
+      .badge.good{background:var(--good-bg);color:var(--good)}
+      .rec{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);color:#eaf1f8;border-radius:var(--radius);
+        padding:24px;margin-bottom:16px;box-shadow:var(--shadow)}
+      .rec .rk{font-size:13px;letter-spacing:2px;color:var(--gold);font-weight:700;margin-bottom:6px}
+      .rec .rmode{font-size:27px;font-weight:900;line-height:1.25;margin:0 0 4px}
+      .rec .rreason{color:#b9cadd;font-size:14.5px;margin:0 0 18px;max-width:640px}
+      .rec .rstats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+      @media (max-width:640px){ .rec .rstats{grid-template-columns:1fr} }
+      .rec .stat{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:11px;padding:12px 15px}
+      .rec .stat small{display:block;color:#9db4cc;font-size:12.5px;margin-bottom:2px}
+      .rec .stat b{font-size:20px;font-weight:800}
+      .rec .stat .gold{color:var(--gold)}
+      .modes{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+      @media (max-width:820px){ .modes{grid-template-columns:1fr} }
+      .mode{background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:16px 18px;position:relative}
+      .mode.pick{border-color:var(--gold)}
+      .mode .mt{font-weight:900;font-size:16px;display:flex;align-items:center;gap:8px}
+      .mode .price{font-size:21px;font-weight:800;margin:6px 0 2px}
+      .mode .per{color:var(--muted);font-size:13px}
+      .mode .fit{color:var(--muted);font-size:13.5px;margin-top:8px;line-height:1.55}
+      .picktag{position:absolute;top:-11px;right:14px;background:var(--gold);color:#fff;font-size:12px;font-weight:700;
+        border-radius:999px;padding:2px 11px}
+      table.cost{width:100%;border-collapse:collapse;font-size:14.5px}
+      table.cost th{text-align:left;color:var(--faint);font-size:12.5px;font-weight:700;padding:6px 8px;border-bottom:1px solid var(--line)}
+      table.cost th.r,table.cost td.r{text-align:right}
+      table.cost td{padding:11px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+      table.cost tr:last-child td{border-bottom:0}
+      table.cost .sn{font-weight:700}
+      table.cost .sd{color:var(--muted);font-size:13px;display:block;margin-top:1px}
+      table.cost .amt{font-weight:800;white-space:nowrap}
+      .payer{font-size:11.5px;font-weight:700;border-radius:6px;padding:2px 8px;white-space:nowrap}
+      .payer.s{background:var(--gold-soft);color:var(--warn-ink)}
+      .payer.b{background:var(--chip);color:var(--muted)}
+      @media (prefers-color-scheme: dark){ .payer.s{color:var(--gold)} }
+      table.cost tr.total td{border-top:2px solid var(--line2);border-bottom:0;font-weight:900;font-size:16px;padding-top:13px}
+      @media (max-width:640px){
+        table.cost .sd{display:none}
+        table.cost td,table.cost th{padding-left:4px;padding-right:4px}
+      }
+      .taxgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+      @media (max-width:640px){ .taxgrid{grid-template-columns:1fr} }
+      .taxbox{background:var(--surface2);border:1px solid var(--line);border-radius:11px;padding:14px 16px}
+      .taxbox small{color:var(--muted);display:block;font-size:13px}
+      .taxbox b{font-size:20px;font-weight:800}
+      .taxbox .rate{color:var(--gold);font-weight:800}
+      .docs{display:grid;gap:16px}
+      .docs h4{margin:0 0 8px;font-size:14.5px;font-weight:900}
+      .docs ul{list-style:none;margin:0;padding:0;display:grid;gap:7px}
+      .docs li{display:flex;gap:9px;align-items:flex-start;font-size:14.5px}
+      .docs li .ck{color:var(--good);flex:none;margin-top:1px}
+      .docs li small{color:var(--muted);display:block;font-size:13px}
+      .who{margin-left:auto;flex:none}
+      .warnlist{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+      .warnlist li{display:flex;gap:10px;background:var(--warn-bg);color:var(--warn-ink);border-radius:10px;padding:11px 14px;font-size:14px;align-items:flex-start}
+      .warnlist li svg{flex:none;margin-top:2px}
+      @media (prefers-color-scheme: dark){ .warnlist li{color:var(--warn-ink)} }
+      .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:4px}
+      .actions .btn{flex:1;min-width:170px}
+      .btn-wa{background:#1faa55;color:#fff}
+      .foot{margin-top:26px;color:var(--faint);font-size:12.5px;line-height:1.7;border-top:1px solid var(--line);padding-top:14px}
+      .foot a{color:var(--gold);font-weight:700;text-decoration:none}
+      .foot a:hover{text-decoration:underline}
+      [hidden]{display:none !important}
+      /* v3 P0 */
+      .breakbar{height:14px;background:var(--chip);border-radius:999px;position:relative;margin:18px 0 8px;overflow:visible}
+      .breakbar .fill{position:absolute;left:0;top:0;bottom:0;background:var(--gold);border-radius:999px}
+      .breakbar .be{position:absolute;top:-5px;width:3px;height:24px;background:var(--navy);border-radius:2px}
+      @media (prefers-color-scheme:dark){.breakbar .be{background:#fff}}
+      .breaklabels{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted)}
+      .verdict{border-radius:11px;padding:14px 16px;font-size:14.5px;line-height:1.6;margin-top:14px}
+      .verdict.goodv{background:var(--good-bg);color:var(--good)}
+      .verdict.warnv{background:var(--warn-bg);color:var(--warn-ink)}
+      table.mini{width:100%;border-collapse:collapse;font-size:14px}
+      table.mini th{text-align:left;color:var(--faint);font-size:12.5px;padding:6px 8px;border-bottom:1px solid var(--line)}
+      table.mini th.r,table.mini td.r{text-align:right}
+      table.mini td{padding:9px 8px;border-bottom:1px solid var(--line)}
+      table.mini tr:last-child td{border-bottom:0}
+      .timeline{display:grid;gap:0}
+      .stage{display:grid;grid-template-columns:22px 1fr auto;gap:12px;position:relative;padding:0 0 16px}
+      .stage:last-child{padding-bottom:2px}
+      .stage::before{content:"";position:absolute;left:10px;top:22px;bottom:0;width:2px;background:var(--line)}
+      .stage:last-child::before{display:none}
+      .stage .dot2{width:22px;height:22px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;z-index:1;font-family:"Archivo",sans-serif}
+      @media (prefers-color-scheme:dark){.stage .dot2{background:var(--gold);color:#12233a}}
+      .stage b{font-size:14.5px}
+      .stage small{display:block;color:var(--muted);font-size:13px;line-height:1.5}
+      .stage .sdays{font-weight:800;white-space:nowrap;font-size:14px}
+      .stagebar{height:6px;background:var(--chip);border-radius:99px;margin-top:6px;overflow:hidden}
+      .stagebar i{display:block;height:100%;background:var(--gold);border-radius:99px}
+      .formula{background:var(--surface2);border:1px solid var(--line);border-radius:11px;padding:14px 16px;font-size:14px;line-height:1.7}
+      .formula code{font-family:"Archivo",monospace;background:var(--chip);padding:1px 6px;border-radius:6px;font-size:13px}
+      .vsgrid{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:stretch;margin:12px 0}
+      @media (max-width:640px){.vsgrid{grid-template-columns:1fr}}
+      .vsbox{background:var(--surface2);border:1px solid var(--line);border-radius:11px;padding:12px 14px;text-align:center}
+      .vsbox.win{border-color:var(--gold);background:var(--gold-soft)}
+      .vsbox small{display:block;color:var(--muted);font-size:12.5px}
+      .vsbox b{font-size:20px}
+      .vsarrow{display:flex;align-items:center;justify-content:center;font-weight:900;color:var(--gold)}
+      .loadresult{margin-top:12px;background:var(--surface2);border:1px solid var(--line);border-radius:11px;padding:14px 16px;font-size:14px}
+      .lead-banner{display:flex;align-items:flex-start;gap:12px;padding:14px 18px;border-radius:11px;margin-bottom:20px;font-size:14.5px;line-height:1.5}
+      .lead-banner.success{background:var(--good-bg);color:var(--good);border:1px solid var(--good)}
+      .lead-banner.warn{background:var(--warn-bg);color:var(--warn-ink);border:1px solid var(--gold)}
+      .lead-banner svg{flex:none;margin-top:2px}
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <nav class="stepper" aria-label="Progress">
+        <div class="stp active" data-s="1"><span class="n">1</span><span class="t">Register</span></div>
+        <div class="bar" data-b="1"></div>
+        <div class="stp" data-s="2"><span class="n">2</span><span class="t">Cargo and destination</span></div>
+        <div class="bar" data-b="2"></div>
+        <div class="stp" data-s="3"><span class="n">3</span><span class="t">Shipping plan</span></div>
+      </nav>
+
+      <!-- ============ STEP 1 : Registration ============ -->
+      <section id="step1">
+        <div class="grid2">
+          <div>
+            <h1>From anywhere to anywhere, <br />Work out exactly what this shipment costs<span class="hl">first</span></h1>
+            <p class="lede">Origin and destination are both free-form (country + city + address). Enter your cargo and get a complete shipping plan instantly: FCL / LCL ocean, bulk carrier, breakbulk, air freight, express and postal parcels, rail / truck are screened automatically by cargo type — what each leg costs, which export and clearance documents are needed, how much duty and VAT applies, and how many days door to door.</p>
+            <ul class="gets">
+              <li>
+                <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="19" r="3"/><circle cx="18" cy="5" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-7a3.5 3.5 0 0 1 0-7H15"/></svg></span>
+                <span><b>Mode recommendation + LCL/FCL break-even point</b><small>The break-even volume is worked out from the rates on this lane, telling you whether LCL or FCL is better value; the loading calculator shows which container your cartons fit and at what utilization</small></span>
+              </li>
+              <li>
+                <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M6 12h.01M18 12h.01"/></svg></span>
+                <span><b>Four-leg cost breakdown + chargeable-weight transparency</b><small>Origin leg · International leg · Destination leg · Taxes — each leg shows the amount and who pays; volumetric-weight divisors, greater-of and rounding rules are fully disclosed; transit is split into six stages: booking, transport, clearance, delivery and buffer</small></span>
+              </li>
+              <li>
+                <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="m9 15 2 2 4-4"/></svg></span>
+                <span><b>Export and clearance document checklist</b><small>Standard documents + destination requirements + category-specific documents, each marked with who prepares it</small></span>
+              </li>
+              <li>
+                <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" x2="5" y1="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg></span>
+                <span><b>Duty and VAT estimates</b><small>Estimated by category and destination tariff, with the tax-base basis explained</small></span>
+              </li>
+            </ul>
+            <div class="flowline"><span class="dot"></span>Register → enter cargo → a complete plan in about 2 minutes — no waiting for a manual reply</div>
+          </div>
+
+          <div class="card">
+            <h2>Register first - your plan comes right away</h2>
+            <p class="sub">Email or WhatsApp — one of the two is required. Your contact goes into your shipping plan. Once calculated, send the plan together with your contact to the Yinghuo International team in one tap for pricing and booking — no re-typing.</p>
+            <form id="regForm" novalidate>
+              <div class="field">
+                <label class="fl" for="leadName">Your name / company <span class="opt">(optional)</span></label>
+                <input type="text" id="leadName" placeholder="e.g. Ahmed / ABC Trading" autocomplete="name" />
+              </div>
+              <div class="field">
+                <label class="fl">Contact <span class="req">*</span></label>
+                <div class="seg" role="radiogroup" aria-label="Contact type">
+                  <label><span><input type="radio" name="leadType" value="email" checked />Email</span></label>
+                  <label><span><input type="radio" name="leadType" value="whatsapp" />WhatsApp</span></label>
+                </div>
+              </div>
+              <div class="field" id="emailField">
+                <label class="fl" for="leadEmail">Email address <span class="req">*</span></label>
+                <input type="email" id="leadEmail" placeholder="you@company.com" autocomplete="email" />
+              </div>
+              <div class="field" id="waField" hidden>
+                <label class="fl" for="leadPhone">WhatsApp number <span class="req">*</span></label>
+                <div class="phonegrid">
+                  <select id="leadCode" aria-label="Country code"></select>
+                  <input type="tel" id="leadPhone" placeholder="Mobile number" autocomplete="tel" />
+                </div>
+              </div>
+              <div class="err-msg" id="regErr"></div>
+              <div style="height:14px"></div>
+              <button type="submit" class="btn btn-gold">Complete registration and start the estimate
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </button>
+              <p class="fine">Your contact is used only for this estimate and the follow-up formal quote — no advertising, never sold on.</p>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ STEP 2 : Input ============ -->
+      <section id="step2" hidden>
+        <h1 class="ptitle">Enter cargo and destination</h1>
+        <p class="lede" id="regEcho"></p>
+        <form id="shipForm" novalidate>
+          <div class="card">
+            <h3><span class="k">A</span>Product information</h3>
+            <div class="fgrid">
+              <div class="field">
+                <label class="fl" for="pName">Product name <span class="req">*</span></label>
+                <input type="text" id="pName" placeholder="e.g. Bluetooth earphones / wooden dining table" />
+              </div>
+              <div class="field">
+                <label class="fl" for="pCat">Product category <span class="req">*</span></label>
+                <select id="pCat"></select>
+              </div>
+              <div class="field">
+                <label class="fl" for="pHs">HS code <span class="opt"> (optional — makes the tax estimate more accurate)</span></label>
+                <input type="text" id="pHs" placeholder="e.g. 8518.30" inputmode="decimal" />
+              </div>
+            </div>
+            <div class="fgrid">
+              <div class="field">
+                <label class="fl" for="pQty">Quantity (pcs)</label>
+                <input type="number" id="pQty" min="0" step="any" placeholder="e.g. 500" />
+              </div>
+              <div class="field">
+                <label class="fl" for="pWeight">Total gross weight, kg <span class="req">*</span></label>
+                <input type="number" id="pWeight" min="0" step="any" placeholder="e.g. 850" />
+              </div>
+              <div class="field">
+                <label class="fl" for="pVol">Total volume, CBM (cubic meters) <span class="req">*</span></label>
+                <input type="number" id="pVol" min="0" step="any" placeholder="e.g. 4.2" />
+              </div>
+            </div>
+            <details class="calc" id="loadCalc">
+              <summary>Do not know the volume? Carton calculator + loading calculator (tap to open) - which container it fits, and the utilization</summary>
+              <div class="fgrid">
+                <div class="field"><label class="fl" for="cCount">Cartons</label><input type="number" id="cCount" min="0" step="any" placeholder="e.g. 200" /></div>
+                <div class="field"><label class="fl" for="cL">Carton size cm (L×W×H)</label>
+                  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px">
+                    <input type="number" id="cL" min="0" step="any" placeholder="L" />
+                    <input type="number" id="cW" min="0" step="any" placeholder="W" />
+                    <input type="number" id="cH" min="0" step="any" placeholder="H" />
+                  </div>
+                </div>
+                <div class="field"><label class="fl" for="cWgt">Gross weight per carton, kg</label><input type="number" id="cWgt" min="0" step="any" placeholder="e.g. 17" /></div>
+              </div>
+              <div class="btn-row" style="margin-top:2px">
+                <button type="button" class="btn btn-ghost" id="cartonBtn" style="padding:8px 16px;font-size:14px">Work out total weight and volume, fill in above</button>
+                <button type="button" class="btn btn-navy" id="loadBtn" style="padding:8px 16px;font-size:14px">Calculate loading plan (20GP / 40GP / 40HQ)</button>
+              </div>
+              <span class="hint" id="cartonMsg" style="display:block;margin-top:8px"></span>
+              <div id="loadResult" class="loadresult" hidden></div>
+              <p class="hint">Loading algorithm: cartons are test-packed in all 6 orientations (rotating L/W/H), taking the orientation with the highest carton count, then constrained by both usable volume and the container payload limit; usable volume follows practical figures of 28 CBM for 20GP / 58 CBM for 40GP / 68 CBM for 40HQ (net internal volume still allows for pallets, gaps and door clearance).</p>
+            </details>
+            <div class="fgrid2">
+              <div class="field">
+                <label class="fl" for="pValue">Total cargo value, USD <span class="req">*</span></label>
+                <input type="number" id="pValue" min="0" step="any" placeholder="e.g. 12000" />
+                <div class="hint">Enter the purchase price; duty and VAT are taxed on this basis.</div>
+              </div>
+              <div class="field">
+                <label class="fl">Cargo attributes (multiple choice)</label>
+                <div class="chips">
+                  <label><span><input type="checkbox" id="flagBattery" />Contains batteries / powered</span></label>
+                  <label><span><input type="checkbox" id="flagLiquid" />Liquids / powders / creams</span></label>
+                  <label><span><input type="checkbox" id="flagBrand" />Branded goods</span></label>
+                </div>
+                <div class="hint" id="volHint">After you enter weight and volume, the air chargeable weight preview appears here.</div>
+              </div>
+            </div>
+            <div class="fgrid2">
+              <div class="field">
+                <label class="fl">Cargo form</label>
+                <div class="seg" role="radiogroup" aria-label="Cargo form">
+                  <label><span><input type="radio" name="cargoForm" value="general" checked />General cargo<small>Whole-shipment consignment</small></span></label>
+                  <label><span><input type="radio" name="cargoForm" value="parcel" />Small parcels<small>E-commerce parcels / samples</small></span></label>
+                  <label><span><input type="radio" name="cargoForm" value="bulk" />Bulk cargo<small>Ore / grain / steel / coal in bulk</small></span></label>
+                </div>
+                <div class="hint">Cargo form decides which modes apply: bulk cargo gets bulk-carrier / breakbulk plans, parcels get express zone-rate plans; modes that do not apply are not shown.</div>
+              </div>
+              <div class="field">
+                <label class="fl">Per-piece details <span class="opt"> (optional — decides whether express and breakbulk apply)</span></label>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px">
+                  <input type="number" id="pieceW" min="0" step="any" placeholder="Heaviest piece, kg" />
+                  <input type="number" id="pieceL" min="0" step="any" placeholder="Longest side per piece, cm" />
+                </div>
+                <div class="hint">Commercial express: max 70 kg per piece / longest side 274 cm; postal parcels: max 2 kg per piece; a single piece over 2,000 kg or with a longest side over 600 cm cannot fit in a container and is switched to a breakbulk vessel automatically.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3><span class="k">B</span>Origin and destination</h3>
+            <div class="fgrid">
+              <div class="field">
+                <label class="fl" for="oCountry">Origin country <span class="req">*</span></label>
+                <select id="oCountry"></select>
+                <div class="hint">China-origin lanes are the most accurate, based on Yiwu forwarder live rates; other origins are modeled from distance and regional benchmarks with wider ranges, subject to a manual live quote.</div>
+              </div>
+              <div class="field">
+                <label class="fl" for="oCity">Origin city <span class="req">*</span></label>
+                <input type="text" id="oCity" placeholder="e.g. Yiwu / Guangzhou / Rotterdam" value="Yiwu" />
+              </div>
+              <div class="field">
+                <label class="fl" for="dCountry">Destination country <span class="req">*</span></label>
+                <select id="dCountry"><option value="">Select a country…</option></select>
+              </div>
+            </div>
+            <div class="fgrid2">
+              <div class="field">
+                <label class="fl" for="dCity">Destination city <span class="req">*</span></label>
+                <input type="text" id="dCity" placeholder="e.g. Hamburg / Dubai / Lagos" />
+              </div>
+              <div class="field">
+                <label class="fl" for="oAddr">Detailed origin address <span class="opt"> (optional — makes the origin collection charge more accurate)</span></label>
+                <input type="text" id="oAddr" placeholder="Warehouse / factory address, e.g. Choujiang Subdistrict, Yiwu…" />
+              </div>
+            </div>
+            <div class="field">
+              <label class="fl" for="dAddr">Detailed address <span class="opt"> (optional — makes the inland delivery charge more accurate)</span></label>
+              <input type="text" id="dAddr" placeholder="Street, number, postcode, e.g. Musterstraße 12, 20357" />
+              <div class="hint">The address decides the inland leg: local delivery in a port city is cheap; an inland city adds a trucking / rail leg, and both cost and transit change.</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3><span class="k">C</span>Timing and trade terms</h3>
+            <div class="fgrid2">
+              <div class="field">
+                <label class="fl">Timing requirement</label>
+                <div class="seg" role="radiogroup" aria-label="Timing requirement">
+                  <label><span><input type="radio" name="urgency" value="fast" />Express<small>3–7  days</small></span></label>
+                  <label><span><input type="radio" name="urgency" value="normal" checked />Standard<small>Best value first</small></span></label>
+                  <label><span><input type="radio" name="urgency" value="slow" />Not urgent<small>Cheapest freight</small></span></label>
+                </div>
+              </div>
+              <div class="field">
+                <label class="fl">Trade term (Incoterms)</label>
+                <div class="seg" role="radiogroup" aria-label="Trade term">
+                  <label><span><input type="radio" name="term" value="DDP" checked />DDP To door, duty paid</span></label>
+                  <label><span><input type="radio" name="term" value="DAP" />DAP To door, duty unpaid</span></label>
+                  <label><span><input type="radio" name="term" value="CIF" />CIF (to port)</span></label>
+                  <label><span><input type="radio" name="term" value="FOB" />FOB (ex ship)</span></label>
+                </div>
+                <div class="termhint" id="termHint"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="err-msg" id="shipErr"></div>
+          <div style="height:14px"></div>
+          <div class="btn-row">
+            <button type="button" class="btn btn-ghost" id="backBtn1">← Back to edit contact</button>
+            <button type="submit" class="btn btn-gold grow" style="width:auto">Generate the full shipping plan
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- ============ STEP 3 : Plan ============ -->
+      <section id="step3" hidden>
+        <div id="result"></div>
+        <div class="actions">
+          <button type="button" class="btn btn-ghost" id="editBtn">← Edit cargo details</button>
+          <button type="button" class="btn btn-navy" id="dlBtn">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>
+            Download plan (.txt)</button>
+          <a class="btn btn-navy" id="mailBtn" href="#">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+            Email the plan to us</a>
+          <a class="btn btn-wa" id="waBtn" href="#" target="_blank" rel="noopener">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            Send via WhatsApp to book / confirm price</a>
+        </div>
+        <p class="fine" style="text-align:left">Tap Send via WhatsApp or Email the plan to us: this plan goes to the Yinghuo International team together with the contact you registered, and we confirm the formal price and lock in space; or download the .txt first and keep it yourself.</p>
+      </section>
+
+      <footer class="foot">
+        The fees in this tool are estimate ranges based on public rate benchmarks and historical shipment data<strong>estimates</strong>, These fees are estimates, not a booking quote; final prices are confirmed in writing by the forwarder. China-origin lanes use live-rate benchmarks; other origins are modeled from distance and regional benchmarks with wider ranges. Bulk carrier rates are charter-market indications and must be confirmed live by a broker. Duty and VAT are estimated from published tariffs; the final ruling rests with destination customs. Sensitive cargo such as batteries, liquids, powders and branded goods needs a manual feasibility check before booking.
+        <p style="margin:10px 0 0">Yiwu Yinghuo International Trade Co., Ltd. | WhatsApp <a href="https://wa.me/8613362927411" target="_blank" rel="noopener">+86 133 6292 7411</a> | Email <a href="mailto:xhwm41319@gmail.com">xhwm41319@gmail.com</a></p>
+      </footer>
+    </div>
+<script>
+/* ================= Data: regional rate benchmarks (USD, public rate benchmarks + historical shipment ranges) ================= */
+var REGIONS = {
+  na_west:{lcl:[48,72],  air:[4.6,6.4], f20:[1750,2550], f40:[2400,3400], seaD:[14,19], airD:[4,7],  clear:[110,170], destCbm:[30,50], inP:[70,150],  inF:[230,660], defVat:0},
+  na_east:{lcl:[68,98],  air:[5.0,7.0], f20:[2750,3750], f40:[3600,4800], seaD:[27,35], airD:[5,8],  clear:[110,170], destCbm:[32,55], inP:[80,160],  inF:[260,720], defVat:0},
+  canada: {lcl:[62,92],  air:[4.9,6.9], f20:[2400,3400], f40:[3200,4400], seaD:[16,24], airD:[5,8],  clear:[100,160], destCbm:[30,52], inP:[75,150],  inF:[240,640], defVat:5},
+  mexico: {lcl:[72,105], air:[5.6,7.6], f20:[2100,2900], f40:[2800,3800], seaD:[20,28], airD:[5,8],  clear:[120,190], destCbm:[35,58], inP:[85,170],  inF:[220,560], defVat:16},
+  brazil: {lcl:[95,145], air:[6.2,9.2], f20:[2600,3600], f40:[3400,4600], seaD:[33,44], airD:[6,9],  clear:[180,280], destCbm:[45,75], inP:[110,220], inF:[300,800], defVat:17},
+  latam:  {lcl:[85,125], air:[5.8,8.2], f20:[2400,3400], f40:[3200,4400], seaD:[30,42], airD:[6,9],  clear:[130,210], destCbm:[38,62], inP:[95,190],  inF:[260,700], defVat:18},
+  eu:     {lcl:[42,66],  air:[4.1,6.1], f20:[2150,3150], f40:[2900,4100], seaD:[27,35], airD:[4,7],  clear:[95,155],  destCbm:[28,48], inP:[70,150],  inF:[170,430], defVat:20},
+  uk:     {lcl:[46,72],  air:[4.3,6.3], f20:[2250,3250], f40:[3000,4200], seaD:[29,37], airD:[4,7],  clear:[90,150],  destCbm:[28,48], inP:[70,150],  inF:[180,440], defVat:20},
+  mea:    {lcl:[36,56],  air:[3.3,4.9], f20:[1250,1850], f40:[1750,2550], seaD:[17,24], airD:[3,6],  clear:[80,140],  destCbm:[25,42], inP:[60,130],  inF:[130,330], defVat:5},
+  saudi:  {lcl:[46,72],  air:[3.9,5.6], f20:[1550,2250], f40:[2100,3000], seaD:[19,27], airD:[4,7],  clear:[110,180], destCbm:[28,48], inP:[70,150],  inF:[160,400], defVat:15},
+  wafr:   {lcl:[88,132], air:[5.6,8.4], f20:[3250,4550], f40:[4300,5900], seaD:[34,47], airD:[5,9],  clear:[130,220], destCbm:[40,68], inP:[95,200],  inF:[300,900], defVat:15},
+  eafr:   {lcl:[76,114], air:[5.4,8.0], f20:[2850,3950], f40:[3800,5200], seaD:[26,36], airD:[5,9],  clear:[120,200], destCbm:[36,60], inP:[90,190],  inF:[320,950], defVat:16},
+  safr:   {lcl:[72,106], air:[5.2,7.6], f20:[2650,3650], f40:[3500,4800], seaD:[24,33], airD:[5,8],  clear:[110,180], destCbm:[34,56], inP:[85,180],  inF:[260,720], defVat:15},
+  seasia: {lcl:[26,46],  air:[2.3,3.6], f20:[750,1250],  f40:[1100,1800], seaD:[7,14],  airD:[3,5],  clear:[70,120],  destCbm:[20,36], inP:[50,110],  inF:[100,280], defVat:10},
+  india:  {lcl:[36,56],  air:[3.1,4.6], f20:[1150,1750], f40:[1600,2400], seaD:[13,20], airD:[4,6],  clear:[80,140],  destCbm:[24,42], inP:[60,130],  inF:[130,340], defVat:18},
+  oceania:{lcl:[46,72],  air:[4.6,6.6], f20:[1750,2550], f40:[2400,3400], seaD:[13,20], airD:[4,7],  clear:[100,160], destCbm:[28,48], inP:[70,150],  inF:[190,480], defVat:10},
+  jk:     {lcl:[24,42],  air:[2.1,3.3], f20:[650,1050],  f40:[950,1550],  seaD:[3,8],   airD:[2,4],  clear:[80,130],  destCbm:[22,38], inP:[60,130],  inF:[120,300], defVat:10},
+  med:    {lcl:[52,78],  air:[4.4,6.4], f20:[1950,2850], f40:[2600,3700], seaD:[22,32], airD:[4,7],  clear:[100,170], destCbm:[30,50], inP:[75,160],  inF:[180,460], defVat:18},
+  russia: {lcl:[62,95],  air:[4.8,7.0], f20:[2300,3300], f40:[3100,4300], seaD:[30,45], airD:[5,8],  clear:[110,180], destCbm:[32,55], inP:[85,180],  inF:[220,600], defVat:20}
+};
+
+/* ================= Data: express zone rates / bulk per-tonne rates / regional hubs / de minimis thresholds ================= */
+/* EXPZ: Commercial express zone rates in USD/kg (China-origin benchmark, common fuel-surcharge range included); postal parcels are estimated at about 55% of that */
+var EXPZ = {
+  na_west:[6.8,9.8], na_east:[7.2,10.4], canada:[7.0,10.0], mexico:[7.6,11.0], brazil:[8.6,12.6],
+  latam:[8.2,12.0], eu:[6.2,9.2], uk:[6.4,9.4], mea:[5.6,8.4], saudi:[6.0,8.8],
+  wafr:[8.8,13.0], eafr:[8.6,12.6], safr:[8.2,12.0], seasia:[4.2,6.4], india:[5.2,7.8],
+  oceania:[6.6,9.6], jk:[3.8,5.8], med:[6.4,9.4], russia:[7.4,10.8], china:[3.2,5.0]
+};
+/* BULKR: Bulk carrier ocean freight indication, USD/tonne (China-origin benchmark, floats with the charter market) */
+var BULKR = {
+  na_west:[26,42], na_east:[32,50], canada:[30,46], mexico:[28,44], brazil:[34,52],
+  latam:[32,50], eu:[30,48], uk:[31,49], mea:[20,32], saudi:[22,34],
+  wafr:[38,58], eafr:[34,52], safr:[32,50], seasia:[14,24], india:[18,28],
+  oceania:[24,38], jk:[12,20], med:[26,40], russia:[30,48], china:[10,16]
+};
+/* HUBS: Regional hub coordinates (approximate), used to model distances for non-China-origin routes */
+var HUBS = {
+  china:[30,118], jk:[35,133], seasia:[8,102], india:[21,78], mea:[25,51], saudi:[24,45],
+  med:[38,27], eu:[50,10], uk:[53,-1], russia:[58,80], na_west:[38,-110], na_east:[39,-76],
+  canada:[52,-100], mexico:[23,-102], brazil:[-12,-55], latam:[-10,-70], wafr:[7,5],
+  eafr:[2,38], safr:[-27,25], oceania:[-27,140]
+};
+function hubDist(a, b){
+  if (a === b) return 0;
+  var A = HUBS[a], B = HUBS[b];
+  if (!A || !B) return 6000;
+  var dLa = (A[0] - B[0]) * 111;
+  var dLo = (A[1] - B[1]) * 85 * Math.cos((A[0] + B[0]) / 2 * Math.PI / 180);
+  return Math.sqrt(dLa * dLa + dLo * dLo);
+}
+/* DEMIN: De minimis duty-free thresholds for main destination countries (USD equivalents) with notes — check current customs rules before booking */
+var DEMIN = {
+  'United States':[800, 'US Section 321: goods valued under USD 800 are duty-free (per recipient per day)'],
+  'Canada':[15, 'Canada: the duty-free threshold is very low (about CAD 20), so most parcels are taxed in full'],
+  'Germany':[165, 'EU: goods valued under EUR 150 are duty-free, but VAT applies from EUR 0.01 (IOSS one-stop filing is available)'],
+  'France':[165, 'EU: goods valued under EUR 150 are duty-free, but VAT applies from EUR 0.01 (IOSS one-stop filing is available)'],
+  'Netherlands':[165, 'EU: goods valued under EUR 150 are duty-free, but VAT applies from EUR 0.01 (IOSS one-stop filing is available)'],
+  'Spain':[165, 'EU: goods valued under EUR 150 are duty-free, but VAT applies from EUR 0.01 (IOSS one-stop filing is available)'],
+  'Italy':[165, 'EU: goods valued under EUR 150 are duty-free, but VAT applies from EUR 0.01 (IOSS one-stop filing is available)'],
+  'Poland':[165, 'EU: goods valued under EUR 150 are duty-free, but VAT applies from EUR 0.01 (IOSS one-stop filing is available)'],
+  'United Kingdom':[175, 'UK: on goods valued at GBP 135 or below, VAT is collected by the seller / platform; the duty threshold is also GBP 135'],
+  'Australia':[660, 'Australia: goods valued under AUD 1,000 are duty-free; GST is mostly collected by the platform / seller'],
+  'United Arab Emirates':[270, 'UAE: low-value goods have a simplified clearance channel; VAT at 5% still applies'],
+  'Saudi Arabia':[265, 'Saudi Arabia: goods valued under SAR 1,000 are duty-free; VAT at 15% still applies'],
+  'Japan':[65, 'Japan: certain categories with a taxable value under JPY 10,000 may be duty-free (leather goods, knitted apparel, etc. excluded)']
+};
+/* EURASIA: Land-connected regions (rail / truck plans available) */
+var EURASIA = ['china','eu','russia','med','seasia','india','mea','saudi'];
+
+/* ================= Data: countries (detailed) ================= */
+/* r=region, port=main seaport, airp=main airport, vat=VAT rate %, vatName=tax name, dutyFlat=flat duty % (mostly 5 in the Gulf),
+   dutyMult=category duty multiplier, cities=port cities (lowercase), inlandNote, docs=destination documents, notes=clearance notes */
+var COUNTRIES = [
+ {zh:'United States',en:'United States',r:'na_west',port:'Port of Los Angeles',airp:'LAX Los Angeles',vat:0,vatName:'No federal VAT (state sales tax 0-10%, generally not levied at import)',dutyMult:1.0,cities:['los angeles','long beach','seattle','tacoma','san francisco','oakland','Los Angeles','Seattle'],
+  alt:{match:['new york','houston','miami','savannah','chicago','dallas','atlanta','boston','charleston','norfolk','New York','Houston','Miami','Chicago'],r:'na_east',port:'Port of New York',airp:'JFK New York'},
+  docs:[['ISF 10+2 filing','Ocean shipments must be filed with CBP 24 hours before loading','Importer / forwarder'],['Importer tax ID (EIN)','Required for company customs declaration','Importer']],
+  notes:['China-origin goods may also attract Section 301 additional duties (mostly 7.5%–25%), assessed by HS code; not included in this estimate — recheck before booking.','After arrival, ocean clearance usually takes 1–3  working days; an inspection adds a further 3–7  days, and an inspection adds 3-7 days plus inspection fees.']},
+ {zh:'Germany',en:'Germany',r:'eu',port:'Port of Hamburg',airp:'FRA Frankfurt',vat:19,vatName:'VAT',dutyMult:1.0,cities:['hamburg','bremerhaven','Hamburg'],
+  docs:[['EORI number','Customs registration number every EU importer must hold','Importer'],['CE marking and declaration of conformity','Mandatory for electronics, toys, machinery and similar categories','Exporter']],
+  notes:['Without an EORI number clearance is impossible; first-time importers should apply 1–2  weeks ahead.','Wooden packaging needs the ISPM15 fumigation mark.']},
+ {zh:'United Kingdom',en:'United Kingdom',r:'uk',port:'Port of Felixstowe',airp:'LHR London Heathrow',vat:20,vatName:'VAT',dutyMult:1.0,cities:['felixstowe','southampton','london','London'],
+  docs:[['GB EORI number','The separate UK customs number after Brexit','Importer'],['UKCA / CE marking','Provide conformity documents by category','Exporter']],
+  notes:['After Brexit the EU EORI no longer works in the UK; apply for a separate GB EORI.','Low-value goods (≤£135)has its own VAT collection rules.']},
+ {zh:'France',en:'France',r:'eu',port:'Port of Le Havre',airp:'CDG Paris CDG',vat:20,vatName:'VAT',dutyMult:1.0,cities:['le havre','marseille','Paris','paris'],
+  docs:[['EORI number','Required for EU importers','Importer'],['CE marking and declaration of conformity','Mandatory for electronics, toys, machinery, etc.','Exporter']],notes:['The importer needs a French VAT number or must clear through a fiscal representative.']},
+ {zh:'Netherlands',en:'Netherlands',r:'eu',port:'Port of Rotterdam',airp:'AMS Amsterdam',vat:21,vatName:'VAT',dutyMult:1.0,cities:['rotterdam','Rotterdam'],
+  docs:[['EORI number','Required for EU importers','Importer'],['CE marking and declaration of conformity','by category','Exporter']],notes:['The Netherlands is an EU distribution hub; Article 23 VAT deferment is available and clearance is efficient.']},
+ {zh:'Spain',en:'Spain',r:'eu',port:'Port of Valencia',airp:'MAD Madrid',vat:21,vatName:'VAT',dutyMult:1.0,cities:['valencia','barcelona','algeciras','Barcelona'],
+  docs:[['EORI number','Required for EU importers','Importer'],['CE marking and declaration of conformity','by category','Exporter']],notes:[]},
+ {zh:'Italy',en:'Italy',r:'eu',port:'Port of Genoa',airp:'MXP Milan',vat:22,vatName:'VAT',dutyMult:1.0,cities:['genoa','naples','Genoa'],
+  docs:[['EORI number','Required for EU importers','Importer'],['CE marking and declaration of conformity','by category','Exporter']],notes:['Italian customs checks declared values strictly; invoice amounts must be truthful.']},
+ {zh:'Poland',en:'Poland',r:'eu',port:'Port of Gdansk',airp:'WAW Warsaw',vat:23,vatName:'VAT',dutyMult:1.0,cities:['gdansk','gdynia','Gdansk'],
+  docs:[['EORI number','Required for EU importers','Importer'],['CE marking and declaration of conformity','by category','Exporter']],notes:['After clearance in Poland, cargo is trucked across Europe — a common low-cost gateway into the EU.']},
+ {zh:'United Arab Emirates',en:'United Arab Emirates',r:'mea',port:'Port of Jebel Ali',airp:'DXB Dubai',vat:5,vatName:'VAT',dutyFlat:5,cities:['dubai','jebel ali','sharjah','abu dhabi','Dubai','Sharjah'],
+  docs:[['Importer trade license','Required for the clearance entity','Importer'],['Customs import code','Dubai Customs registration number','Importer']],
+  notes:['Most goods carry a flat 5% duty; tobacco, alcohol and similar goods carry high excise taxes.','Transshipment via the Jebel Ali free zone can defer duty; much Gulf and Africa re-export cargo moves this way.']},
+ {zh:'Saudi Arabia',en:'Saudi Arabia',r:'saudi',port:'Jeddah Islamic Port',airp:'RUH Riyadh',vat:15,vatName:'VAT',dutyFlat:5,cities:['jeddah','dammam','riyadh','Jeddah','Dammam','Riyadh'],
+  docs:[['SABER / SASO certificate','Mandatory for most consumer goods; arrange before shipping','Exporter'],['Commercial registration (CR)','Importer qualification','Importer']],
+  notes:['Without a SABER certificate the cargo cannot clear on arrival and will incur heavy port storage charges; confirm before shipping whether your category is regulated.']},
+ {zh:'Qatar',en:'Qatar',r:'mea',port:'Hamad Port',airp:'DOH Doha',vat:0,vatName:'VAT not yet introduced',dutyFlat:5,cities:['doha','Doha'],
+  docs:[['Importer commercial registration (CR)','Required for the clearance entity','Importer']],notes:['Most goods carry 5% duty; clearance requires a locally registered Qatari company as importer.']},
+ {zh:'Kuwait',en:'Kuwait',r:'mea',port:'Shuwaikh Port',airp:'KWI Kuwait City',vat:0,vatName:'VAT not yet introduced',dutyFlat:5,cities:['kuwait','Kuwait'],
+  docs:[['Import license','Some categories need an industry license','Importer']],notes:['Most goods carry 5% duty.']},
+ {zh:'Oman',en:'Oman',r:'mea',port:'Port of Sohar',airp:'MCT Muscat',vat:5,vatName:'VAT',dutyFlat:5,cities:['muscat','sohar','Muscat'],
+  docs:[['Importer commercial registration','Required for the clearance entity','Importer']],notes:['Most goods carry 5% duty.']},
+ {zh:'Iraq',en:'Iraq',r:'mea',port:'Port of Umm Qasr',airp:'BGW Baghdad',vat:0,vatName:'No VAT (duty and reconstruction levies apply)',dutyMult:1.0,cities:['basra','umm qasr','baghdad','Basra','Baghdad'],
+  docs:[['Certificate of origin + consular-legalized invoice','Some orders require consular legalization','Exporter']],notes:['Iraq clearance document requirements change often — verify each item manually before booking; charges for this destination use the generic template.'],generic:true},
+ {zh:'Ghana',en:'Ghana',r:'wafr',port:'Port of Tema',airp:'ACC Accra',vat:15,vatName:'VAT plus surcharges (about 15-20% combined)',dutyMult:1.1,cities:['tema','accra','Tema','Accra'],
+  docs:[['Importer TIN tax ID','Required for clearance','Importer'],['Ghana Standards Authority (GSA) certificate','Pre-shipment inspection for some categories (electrical goods, building materials, etc.)','Exporter']],
+  notes:['On top of VAT, Ghana also levies NHIL, GETFund and other surcharges, so the real tax burden is higher than the nominal VAT rate; this estimate already uses combined-rate ranges.','Tema port congestion is common in peak season; add 5–7  days of buffer to sea transit.']},
+ {zh:'Nigeria',en:'Nigeria',r:'wafr',port:'Port of Lagos (Apapa/Tin Can)',airp:'LOS Lagos',vat:7.5,vatName:'VAT',dutyMult:1.2,cities:['lagos','Lagos'],
+  docs:[['Form M','Opened on the Trade Portal before import; a prerequisite document for ocean clearance','Importer'],['SONCAP certificate','Mandatory for regulated products; arrange before shipping','Exporter']],
+  notes:['Without Form M and SONCAP the cargo cannot clear on arrival; congestion and demurrage at Lagos are the main risks — allow ample buffer in the schedule.']},
+ {zh:'Kenya',en:'Kenya',r:'eafr',port:'Port of Mombasa',airp:'NBO Nairobi',vat:16,vatName:'VAT',dutyMult:1.05,cities:['mombasa','nairobi','Mombasa','Nairobi'],
+  docs:[['PVoC / COC certificate of conformity','Pre-shipment inspection, as required by KEBS','Exporter'],['Importer PIN tax ID','Required for clearance','Importer']],
+  notes:['Without a COC certificate the cargo will be fined or returned on arrival; the top East African Community common tariff band is 35%, and sensitive categories such as textiles and footwear carry high rates.']},
+ {zh:'Tanzania',en:'Tanzania',r:'eafr',port:'Port of Dar es Salaam',airp:'DAR Dar es Salaam',vat:18,vatName:'VAT',dutyMult:1.05,cities:['dar es salaam','Dar es Salaam'],
+  docs:[['PVoC / COC certificate of conformity','Pre-shipment inspection','Exporter'],['Importer TIN tax ID','Required for clearance','Importer']],notes:['Dar es Salaam is also the transit port for landlocked countries such as Zambia and Rwanda; transit cargo is charged separate transit fees.']},
+ {zh:'Uganda',en:'Uganda',r:'eafr',port:'Via Mombasa (transshipment)',airp:'EBB Entebbe',vat:18,vatName:'VAT',dutyMult:1.05,cities:[],inlandNote:'Landlocked: ocean to Mombasa, then transit trucking to Kampala; the inland leg takes about 5-8 days',
+  docs:[['PVoC / COC certificate of conformity','Pre-shipment inspection','Exporter'],['Importer TIN tax ID','Required for clearance','Importer']],notes:['The inland leg is estimated on transit transport; transit times swing widely in the rainy season.']},
+ {zh:'Ethiopia',en:'Ethiopia',r:'eafr',port:'Via Djibouti (transshipment)',airp:'ADD Addis Ababa',vat:15,vatName:'VAT',dutyMult:1.0,cities:[],inlandNote:'Landlocked: ocean to Djibouti, then transit to Addis Ababa',
+  docs:[['Import license','Importer qualification','Importer'],['Pre-shipment inspection (some categories)','Confirm by category','Exporter']],notes:['Foreign-exchange controls are strict; agree the payment and clearance rhythm with the buyer in advance.']},
+ {zh:'South Africa',en:'South Africa',r:'safr',port:'Port of Durban',airp:'JNB Johannesburg',vat:15,vatName:'VAT',dutyMult:1.0,cities:['durban','johannesburg','cape town','Durban','Johannesburg','Cape Town'],
+  docs:[['Importer customs registration number','SARS registration','Importer'],['LOA / NRCS certificate','Electrical goods and other regulated categories','Exporter']],
+  notes:['Apparel and footwear duties run high (up to 40%+); this estimate flags the top of the category range — verify by HS code before booking.']},
+ {zh:'Zambia',en:'Zambia',r:'safr',port:'Via Durban (transshipment)',airp:'LUN Lusaka',vat:16,vatName:'VAT',dutyMult:1.0,cities:[],inlandNote:'Landlocked: ocean to Durban, then transit trucking to Lusaka; the inland leg takes about 7-12 days',
+  docs:[['Importer TPIN tax ID','Required for clearance','Importer'],['Pre-shipment inspection (some categories)','Confirm by category','Exporter']],notes:[]},
+ {zh:'Angola',en:'Angola',r:'wafr',port:'Port of Luanda',airp:'LAD Luanda',vat:14,vatName:'VAT',dutyMult:1.1,cities:['luanda','Luanda'],
+  docs:[['Importer tax registration','Required for clearance','Importer'],['Pre-shipment inspection (some categories)','Confirm by category','Exporter']],notes:['Clearance at Luanda takes longer; send original documents with the vessel in advance or use telex release.']},
+ {zh:'Senegal',en:'Senegal',r:'wafr',port:'Port of Dakar',airp:'DSS Dakar',vat:18,vatName:'VAT',dutyMult:1.1,cities:['dakar','Dakar'],
+  docs:[['Importer tax ID (NINEA)','Required for clearance','Importer']],notes:['ECOWAS common tariff framework; sensitive categories carry higher rates.']},
+ {zh:'Morocco',en:'Morocco',r:'med',port:'Port of Casablanca',airp:'CMN Casablanca',vat:20,vatName:'VAT',dutyMult:1.0,cities:['casablanca','tangier','Casablanca','Tangier'],
+  docs:[['Importer commercial registration','Required for clearance','Importer'],['Certificate of Conformity (COC) (some categories)','Confirm before shipping for industrial products, etc.','Exporter']],notes:[]},
+ {zh:'Egypt',en:'Egypt',r:'med',port:'Port of Alexandria',airp:'CAI Cairo',vat:14,vatName:'VAT',dutyMult:1.1,cities:['alexandria','cairo','Alexandria','Cairo'],
+  docs:[['ACID / Nafeza advance filing','An ACID number must be obtained before loading, or the cargo is returned','Importer'],['Certificate of origin + document legalization','Required for some orders','Exporter']],
+  notes:['Egypt mandates advance cargo information (ACID): without an ACID number the carrier will not load the cargo — the most common pitfall on this lane.']},
+ {zh:'Turkiye',en:'Türkiye',r:'med',port:'Port of Istanbul (Ambarli)',airp:'IST Istanbul',vat:20,vatName:'VAT VAT (KDV)',dutyMult:1.0,cities:['istanbul','izmir','mersin','Istanbul'],
+  docs:[['Importer tax ID','Required for clearance','Importer'],['CE marking (regulated categories)','EU standards','Exporter']],
+  notes:['Some Chinese goods carry additional duties and anti-dumping duties (footwear, textiles, ceramics, etc.) — verify by HS code before booking.']},
+ {zh:'Israel',en:'Israel',r:'med',port:'Port of Haifa',airp:'TLV Tel Aviv',vat:18,vatName:'VAT',dutyMult:0.9,cities:['haifa','ashdod','tel aviv','Haifa','Tel Aviv'],
+  docs:[['Importer registration','Required for clearance','Importer'],['Standards Institution of Israel (SII) certification (some categories)','Electrical goods, etc.','Exporter']],notes:[]},
+ {zh:'Canada',en:'Canada',r:'canada',port:'Port of Vancouver',airp:'YYZ Toronto',vat:5,vatName:'GST federal tax 5% (plus provincial PST/HST, varies by province)',dutyMult:0.95,cities:['vancouver','toronto','montreal','Vancouver','Toronto','Montreal'],
+  docs:[['Importer BN business number','Required for clearance','Importer']],notes:['Provincial taxes vary widely: BC adds 7% PST, while Ontario HST totals 13%. This estimate counts federal GST only — recheck for the province of delivery before booking.']},
+ {zh:'Mexico',en:'Mexico',r:'mexico',port:'Port of Manzanillo',airp:'MEX Mexico City',vat:16,vatName:'VAT VAT (IVA)',dutyMult:1.1,cities:['manzanillo','mexico city','veracruz','Mexico City'],
+  docs:[['Importer RFC tax ID + Padron registration','Required for clearance','Importer'],['NOM certification (regulated categories)','Electronics, toys, etc.','Exporter']],
+  notes:['Mexico applies strict reference-price checks on textiles, footwear, steel and similar goods; under-declared values are easily re-assessed by customs.']},
+ {zh:'Brazil',en:'Brazil',r:'brazil',port:'Port of Santos',airp:'GRU Sao Paulo',vat:17,vatName:'ICMS and other state taxes (vary by state, about 17-19%)',dutyMult:1.6,cities:['santos','sao paulo','Sao Paulo'],
+  docs:[['Importer CNPJ + RADAR license','Required for clearance eligibility','Importer'],['ANVISA / INMETRO certification (regulated categories)','Cosmetics, electrical goods, toys, etc.','Exporter']],
+  notes:['Brazil is one of the most complex tax markets in the world: on top of import duty there are IPI, PIS/COFINS and ICMS layers. This estimate uses combined-rate ranges; for large shipments we strongly recommend a manual detailed calculation before booking.']},
+ {zh:'Chile',en:'Chile',r:'latam',port:'Port of San Antonio',airp:'SCL Santiago',vat:19,vatName:'VAT VAT (IVA)',dutyMult:0.6,cities:['san antonio','valparaiso','santiago','Santiago'],
+  docs:[['Importer RUT tax ID','Required for clearance','Importer'],['China-Chile FTA Form F certificate of origin','The key document for 0 duty','Exporter']],
+  notes:['Under the China-Chile FTA most Chinese goods enter at 0 duty; make sure to obtain a Form F certificate of origin. The duty in this estimate has already been reduced on FTA terms.']},
+ {zh:'Colombia',en:'Colombia',r:'latam',port:'Port of Cartagena',airp:'BOG Bogota',vat:19,vatName:'VAT VAT (IVA)',dutyMult:1.0,cities:['cartagena','buenaventura','bogota','Bogota'],
+  docs:[['Importer RUT tax ID','Required for clearance','Importer']],notes:[]},
+ {zh:'Peru',en:'Peru',r:'latam',port:'Port of Callao',airp:'LIM Lima',vat:18,vatName:'IGV (VAT)',dutyMult:0.6,cities:['callao','lima','Lima'],
+  docs:[['Importer RUC tax ID','Required for clearance','Importer'],['China-Peru FTA certificate of origin','For preferential duty','Exporter']],notes:['The China-Peru FTA covers most categories; a certificate of origin cuts duty significantly.']},
+ {zh:'Argentina',en:'Argentina',r:'latam',port:'Port of Buenos Aires',airp:'EZE Buenos Aires',vat:21,vatName:'VAT VAT (IVA)',dutyMult:1.3,cities:['buenos aires','Buenos Aires'],
+  docs:[['Importer CUIT tax ID','Required for clearance','Importer']],notes:['Argentine FX and import controls change often; confirm the payment arrangement in advance.']},
+ {zh:'Australia',en:'Australia',r:'oceania',port:'Port of Sydney',airp:'SYD Sydney',vat:10,vatName:'GST (goods and services tax)',dutyMult:0.8,cities:['sydney','melbourne','brisbane','Sydney','Melbourne','Brisbane'],
+  docs:[['Importer ABN','Required for clearance','Importer'],['China-Australia FTA certificate of origin','Most categories already reduced to 0 duty','Exporter']],
+  notes:['Wooden packaging and used goods face strict biosecurity inspection (seasonal BMSB measures); inadequate fumigation means the cargo is returned.']},
+ {zh:'New Zealand',en:'New Zealand',r:'oceania',port:'Port of Auckland',airp:'AKL Auckland',vat:15,vatName:'GST (goods and services tax)',dutyMult:0.8,cities:['auckland','Auckland'],
+  docs:[['Importer registration','Required for clearance','Importer'],['China-New Zealand certificate of origin','For preferential duty','Exporter']],notes:['Quarantine standards are strict; confirm MPI requirements for wood products and food in advance.']},
+ {zh:'India',en:'India',r:'india',port:'Nhava Sheva Port',airp:'DEL New Delhi',vat:18,vatName:'GST (common band 18%)',dutyMult:1.4,cities:['mumbai','nhava sheva','chennai','delhi','Mumbai','New Delhi'],
+  docs:[['Importer IEC code','Required for clearance eligibility','Importer'],['BIS certification (regulated categories)','Mandatory for electronics, toys, steel, etc.','Exporter']],
+  notes:['Indian duty = basic duty (BCD) plus social welfare surcharge plus GST, layer on layer, and China-origin goods are checked strictly; this estimate uses combined-rate ranges.']},
+ {zh:'Pakistan',en:'Pakistan',r:'india',port:'Port of Karachi',airp:'KHI Karachi',vat:18,vatName:'GST (sales tax)',dutyMult:1.0,cities:['karachi','lahore','Karachi'],
+  docs:[['Importer NTN tax ID','Required for clearance','Importer'],['China-Pakistan FTA certificate of origin','For preferential duty','Exporter']],notes:[]},
+ {zh:'Bangladesh',en:'Bangladesh',r:'india',port:'Port of Chattogram',airp:'DAC Dhaka',vat:15,vatName:'VAT',dutyMult:1.1,cities:['chattogram','dhaka','Chattogram','Dhaka'],
+  docs:[['Importer TIN / IRC','Required for clearance','Importer']],notes:['Chattogram port congestion is common; allow extra buffer in the schedule.']},
+ {zh:'Sri Lanka',en:'Sri Lanka',r:'india',port:'Port of Colombo',airp:'CMB Colombo',vat:18,vatName:'VAT',dutyMult:1.0,cities:['colombo','Colombo'],
+  docs:[['Importer TIN tax ID','Required for clearance','Importer']],notes:[]},
+ {zh:'Vietnam',en:'Vietnam',r:'seasia',port:'Haiphong / Ho Chi Minh Ports',airp:'SGN Ho Chi Minh',vat:10,vatName:'VAT',dutyMult:0.7,cities:['ho chi minh','haiphong','hanoi','Ho Chi Minh','Haiphong','Hanoi'],
+  docs:[['Importer tax ID','Required for clearance','Importer'],['Form E certificate of origin (China-ASEAN)','The key document for preferential duty','Exporter']],notes:['With a Form E, duty on most categories drops sharply or to zero — always include it.']},
+ {zh:'Thailand',en:'Thailand',r:'seasia',port:'Laem Chabang Port',airp:'BKK Bangkok',vat:7,vatName:'VAT',dutyMult:0.8,cities:['bangkok','laem chabang','Bangkok'],
+  docs:[['Importer tax ID','Required for clearance','Importer'],['Form E certificate of origin (China-ASEAN)','For preferential duty','Exporter'],['TISI certification (regulated categories)','Electrical goods, building materials, etc.','Exporter']],notes:[]},
+ {zh:'Indonesia',en:'Indonesia',r:'seasia',port:'Port of Tanjung Priok (Jakarta)',airp:'CGK Jakarta',vat:11,vatName:'VAT',dutyMult:0.8,cities:['jakarta','surabaya','Jakarta','Surabaya'],
+  docs:[['Importer NIB registration','Required for clearance','Importer'],['Form E certificate of origin (China-ASEAN)','For preferential duty','Exporter'],['SNI certification (regulated categories)','Toys, electrical goods, textiles, etc.','Exporter']],
+  notes:['Indonesia red-line periods bring high clearance inspection rates — document consistency (product name, quantity, amount) must match exactly.']},
+ {zh:'Philippines',en:'Philippines',r:'seasia',port:'Port of Manila',airp:'MNL Manila',vat:12,vatName:'VAT',dutyMult:0.8,cities:['manila','cebu','Manila'],
+  docs:[['Importer BIR registration','Required for clearance','Importer'],['Form E certificate of origin (China-ASEAN)','For preferential duty','Exporter'],['BPS / ICC mark (regulated categories)','Electrical goods, building materials, etc.','Exporter']],notes:[]},
+ {zh:'Malaysia',en:'Malaysia',r:'seasia',port:'Port Klang',airp:'KUL Kuala Lumpur',vat:8,vatName:'SST sales tax (common band 8%)',dutyMult:0.8,cities:['kuala lumpur','port klang','Kuala Lumpur','Klang'],
+  docs:[['Importer registration','Required for clearance','Importer'],['Form E certificate of origin (China-ASEAN)','For preferential duty','Exporter'],['SIRIM certification (regulated categories)','Electrical goods, telecom equipment, etc.','Exporter']],notes:[]},
+ {zh:'Singapore',en:'Singapore',r:'seasia',port:'Port of Singapore',airp:'SIN Singapore',vat:9,vatName:'GST (goods and services tax)',dutyMult:0.3,cities:['singapore','Singapore'],
+  docs:[['Importer UEN registration','Required for clearance','Importer']],notes:['Almost all goods enter Singapore duty-free; it is a Southeast Asia transshipment and distribution hub. Duty here is estimated on the low-value basis.']},
+ {zh:'Japan',en:'Japan',r:'jk',port:'Tokyo / Osaka Ports',airp:'NRT Tokyo Narita',vat:10,vatName:'Consumption tax',dutyMult:0.9,cities:['tokyo','osaka','nagoya','Tokyo','Osaka'],
+  docs:[['Importer registration (NACCS)','Required for clearance','Importer'],['PSE mark (electrical appliances)','Japan Electrical Appliances and Materials Safety Act','Exporter']],notes:['Food and cosmetics imports need advance import notification filing; first imports take longer.']},
+ {zh:'South Korea',en:'South Korea',r:'jk',port:'Busan / Incheon Ports',airp:'ICN Incheon',vat:10,vatName:'VAT',dutyMult:0.8,cities:['busan','incheon','seoul','Busan','Incheon','Seoul'],
+  docs:[['Importer business registration','Required for clearance','Importer'],['KC certification (regulated categories)','Electrical goods, toys, etc.','Exporter'],['China-Korea FTA certificate of origin','For preferential duty','Exporter']],notes:[]},
+ {zh:'Russia',en:'Russia',r:'russia',port:'St. Petersburg / Vladivostok Ports',airp:'SVO Moscow',vat:20,vatName:'VAT',dutyMult:1.0,cities:['moscow','st. petersburg','vladivostok','Moscow','St. Petersburg'],
+  docs:[['Importer customs registration','Required for clearance','Importer'],['EAC certification (regulated categories)','Eurasian Economic Union conformity','Exporter']],
+  notes:['Current lanes and cross-border payment channels are heavily restricted; China-Europe rail is an alternative (about 18–28 days, priced between sea and air); verify the channel and payment arrangement manually before booking this destination.'],generic:true}
+];
+
+/* More countries: generic template (estimated from regional rates and default tax rates) */
+var GENERIC = [
+ ['Greece','Greece','eu'],['Portugal','Portugal','eu'],['Belgium','Belgium','eu'],['Austria','Austria','eu'],['Sweden','Sweden','eu'],['Denmark','Denmark','eu'],['Finland','Finland','eu'],['Norway','Norway','eu'],['Ireland','Ireland','eu'],['Czechia','Czechia','eu'],['Hungary','Hungary','eu'],['Romania','Romania','eu'],['Bulgaria','Bulgaria','eu'],['Croatia','Croatia','eu'],['Lithuania','Lithuania','eu'],['Latvia','Latvia','eu'],['Estonia','Estonia','eu'],['Slovakia','Slovakia','eu'],['Slovenia','Slovenia','eu'],['Switzerland','Switzerland','eu'],['Serbia','Serbia','eu'],['Ukraine','Ukraine','eu'],
+ ['Guatemala','Guatemala','latam'],['Panama','Panama','latam'],['Costa Rica','Costa Rica','latam'],['Dominican Republic','Dominican Republic','latam'],['Ecuador','Ecuador','latam'],['Bolivia','Bolivia','latam'],['Paraguay','Paraguay','latam'],['Uruguay','Uruguay','latam'],['Honduras','Honduras','latam'],['El Salvador','El Salvador','latam'],['Cuba','Cuba','latam'],['Jamaica','Jamaica','latam'],
+ ['Algeria','Algeria','med'],['Tunisia','Tunisia','med'],['Libya','Libya','med'],['Jordan','Jordan','mea'],['Lebanon','Lebanon','mea'],['Bahrain','Bahrain','mea'],['Yemen','Yemen','mea'],
+ ['Côte d’Ivoire',"Côte d'Ivoire",'wafr'],['Cameroon','Cameroon','wafr'],['DR Congo','DR Congo','eafr'],['Congo','Congo','wafr'],['Gabon','Gabon','wafr'],['Togo','Togo','wafr'],['Benin','Benin','wafr'],['Mali','Mali','wafr'],['Burkina Faso','Burkina Faso','wafr'],['Guinea','Guinea','wafr'],['Mauritania','Mauritania','wafr'],['Mozambique','Mozambique','safr'],['Zimbabwe','Zimbabwe','safr'],['Botswana','Botswana','safr'],['Namibia','Namibia','safr'],['Madagascar','Madagascar','eafr'],['Rwanda','Rwanda','eafr'],['Sudan','Sudan','eafr'],
+ ['Kazakhstan','Kazakhstan','russia'],['Uzbekistan','Uzbekistan','russia'],['Kyrgyzstan','Kyrgyzstan','russia'],['Tajikistan','Tajikistan','russia'],['Georgia','Georgia','russia'],['Azerbaijan','Azerbaijan','russia'],['Armenia','Armenia','russia'],['Mongolia','Mongolia','russia'],['Belarus','Belarus','russia'],
+ ['Myanmar','Myanmar','seasia'],['Cambodia','Cambodia','seasia'],['Laos','Laos','seasia'],['Brunei','Brunei','seasia'],['Nepal','Nepal','india'],['Fiji','Fiji','oceania'],['Papua New Guinea','Papua New Guinea','oceania']
+];
+GENERIC.forEach(function(g){
+  COUNTRIES.push({zh:g[0],en:g[1],r:g[2],port:'Main port (confirmed by city)',airp:'Main airport (confirmed by city)',
+    vat:REGIONS[g[2]].defVat,vatName:'VAT / consumption tax (regional standard basis)',dutyMult:1.0,cities:[],
+    docs:[['Importer tax ID / customs registration','Required for the clearance entity','Importer']],notes:[],generic:true});
+});
+
+/* ================= Data: categories ================= */
+var CATS = {
+  general:{label:'General merchandise / household goods',duty:[4,12],docs:[]},
+  clothing:{label:'Apparel and textiles',duty:[10,25],docs:[['Textile composition and origin labeling','Mandatory labeling for EU/US markets','Exporter']]},
+  shoesbags:{label:'Footwear and bags',duty:[8,20],docs:[['Material composition label','Genuine leather content must be declared truthfully','Exporter']]},
+  electronics:{label:'Consumer electronics / small appliances',duty:[0,14],docs:[['CE (EU) / FCC (US) certification','Provide test reports for the destination country','Exporter'],['RoHS Hazardous-substances compliance declaration','Mandatory in the EU','Exporter']]},
+  toys:{label:'Toys',duty:[4,12],docs:[['EN 71 (EU) / ASTM F963 + CPSIA (US)','Toy safety standard test report','Exporter'],['Age grading and warning labels','In the language of the destination country','Exporter']]},
+  furniture:{label:'Home furniture',duty:[5,15],docs:[['Wood product fumigation / ISPM15 mark','Required for solid wood and solid-wood packaging','Exporter'],['Panel formaldehyde standards (US CARB / EU E1)','Engineered-wood furniture','Exporter']]},
+  beauty:{label:'Beauty and personal care',duty:[5,20],docs:[['Full INCI ingredient list','For filing and label review','Exporter'],['Destination cosmetics filing / registration','e.g. EU CPNP, US MoCRA','Importer']]},
+  hardware:{label:'Hardware and tools',duty:[3,10],docs:[]},
+  autoparts:{label:'Auto parts',duty:[3,12],docs:[['ECE / DOT certification (regulated parts)','Safety parts such as lamps and brakes','Exporter']]},
+  sports:{label:'Sports and outdoors',duty:[5,15],docs:[]},
+  baby:{label:'Mother and baby products',duty:[5,12],docs:[['Infant and toddler product safety standard report','EN 71 / ASTM, etc.','Exporter']]},
+  pet:{label:'Pet supplies',duty:[5,15],docs:[['Pet food needs a feed import permit','Food products only','Importer']]},
+  food:{label:'Food / agricultural products',duty:[10,30],docs:[['Sanitary / phytosanitary certificate','Issued by the authorities','Exporter'],['Destination food import registration','e.g. US FDA registration','Importer']],foodFlag:true},
+  other:{label:'Other categories',duty:[5,15],docs:[]}
+};
+
+var TERM_HINTS = {
+  DDP:'DDP Delivered duty paid: the seller handles everything to the door of the buyer, with duty and VAT included in the price. The best choice for first-time importers with no local clearance entity — you just wait for delivery.',
+  DAP:'DAP Delivered at place, duty unpaid: the seller delivers to your door, but destination duty and VAT are paid by the buyer at clearance; the buyer needs local import status and a tax ID.',
+  CIF:'CIF Cost, insurance and freight to port: the seller covers ocean / air freight to the destination port only; port charges, clearance, taxes and inland delivery are arranged by the buyer.',
+  FOB:'FOB Free on board: the seller only loads the goods on the vessel / aircraft; international freight, destination-port charges, clearance and taxes are all on the buyer.'
+};
+var TERM_PAYERS = { /* [Origin leg, International leg, Destination leg, Taxes] true=Seller pays */
+  DDP:[true,true,true,true], DAP:[true,true,true,false],
+  CIF:[true,true,false,false], FOB:[true,false,false,false]
+};
+var DIAL_CODES = ['+86 China','+1 United States / Canada','+44 United Kingdom','+49 Germany','+33 France','+31 Netherlands','+34 Spain','+39 Italy','+48 Poland','+971 United Arab Emirates','+966 Saudi Arabia','+974 Qatar','+233 Ghana','+234 Nigeria','+254 Kenya','+255 Tanzania','+256 Uganda','+27 South Africa','+52 Mexico','+55 Brazil','+56 Chile','+57 Colombia','+51 Peru','+54 Argentina','+61 Australia','+64 New Zealand','+91 India','+92 Pakistan','+880 Bangladesh','+84 Vietnam','+66 Thailand','+62 Indonesia','+63 Philippines','+60 Malaysia','+65 Singapore','+81 Japan','+82 South Korea','+90 Turkiye','+20 Egypt','+212 Morocco','+7 Russia / Kazakhstan'];
+
+/* ================= Utilities ================= */
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function num(v){ var n = parseFloat(v); return isNaN(n) ? 0 : n; }
+function money(n){ return '$' + Math.round(n).toLocaleString('en-US'); }
+function rng(r){ return money(r[0]) + ' – ' + money(r[1]); }
+function addR(a,b){ return [a[0]+b[0], a[1]+b[1]]; }
+function mulR(r,k){ return [r[0]*k, r[1]*k]; }
+function mid(r){ return (r[0]+r[1])/2; }
+
+var lead = null;   /* Registered lead (this session only) */
+var lastPlan = null;
+
+/* ================= Init dropdowns ================= */
+(function init(){
+  var codeSel = $('leadCode');
+  DIAL_CODES.forEach(function(d){
+    var o = document.createElement('option');
+    o.value = d.split(' ')[0]; o.textContent = d; codeSel.appendChild(o);
+  });
+  codeSel.value = '+86';
+  var catSel = $('pCat');
+  Object.keys(CATS).forEach(function(k){
+    var o = document.createElement('option');
+    o.value = k; o.textContent = CATS[k].label; catSel.appendChild(o);
+  });
+  var cSel = $('dCountry');
+  var gMain = document.createElement('optgroup'); gMain.label = 'Popular destinations (detailed data)';
+  var gMore = document.createElement('optgroup'); gMore.label = 'More countries / regions (generic template)';
+  COUNTRIES.forEach(function(c, i){
+    var o = document.createElement('option');
+    o.value = i; o.textContent = c.en;
+    (c.generic ? gMore : gMain).appendChild(o);
+  });
+  cSel.appendChild(gMain); cSel.appendChild(gMore);
+  var oSel = $('oCountry');
+  var oc0 = document.createElement('option');
+  oc0.value = 'CN'; oc0.textContent = 'China (live-rate benchmark)'; oSel.appendChild(oc0);
+  COUNTRIES.forEach(function(cn, i){
+    var o = document.createElement('option');
+    o.value = i; o.textContent = cn.en; oSel.appendChild(o);
+  });
+  oSel.value = 'CN';
+  updateTermHint();
+})();
+
+/* ================= Step switching ================= */
+function goStep(n){
+  [1,2,3].forEach(function(i){
+    $('step'+i).hidden = i !== n;
+    var stp = document.querySelector('.stp[data-s="'+i+'"]');
+    stp.classList.toggle('active', i === n);
+    stp.classList.toggle('done', i < n);
+    stp.querySelector('.n').innerHTML = i < n ? '&#10003;' : String(i);
+  });
+  document.querySelectorAll('.bar').forEach(function(b){
+    b.classList.toggle('done', parseInt(b.getAttribute('data-b'),10) < n);
+  });
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+/* ================= Lead API Integration ================= */
+var leadSubmitStatus = null;
+function submitFreightLead(payload, cb){
+  var done = false;
+  var timer = setTimeout(function(){
+    if (!done){
+      done = true;
+      leadSubmitStatus = 'failed';
+      if (cb) cb(false, 'timeout');
+    }
+  }, 3500);
+
+  try {
+    fetch('https://download.yiwuyinghuo.com/api/freight-leads', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).then(function(res){
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.json();
+    }).then(function(data){
+      if (!done){
+        done = true;
+        clearTimeout(timer);
+        leadSubmitStatus = 'success';
+        if (cb) cb(true, data);
+      }
+    }).catch(function(err){
+      if (!done){
+        done = true;
+        clearTimeout(timer);
+        leadSubmitStatus = 'failed';
+        if (cb) cb(false, err);
+      }
+    });
+  } catch(e) {
+    if (!done){
+      done = true;
+      clearTimeout(timer);
+      leadSubmitStatus = 'failed';
+      if (cb) cb(false, e);
+    }
+  }
+}
+
+/* ================= STEP 1: Registration ================= */
+document.querySelectorAll('input[name="leadType"]').forEach(function(r){
+  r.addEventListener('change', function(){
+    var isWa = document.querySelector('input[name="leadType"]:checked').value === 'whatsapp';
+    $('emailField').hidden = isWa;
+    $('waField').hidden = !isWa;
+  });
+});
+$('regForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  var err = $('regErr'); err.classList.remove('show');
+  var type = document.querySelector('input[name="leadType"]:checked').value;
+  var name = $('leadName').value.trim();
+  var contact = '';
+  if (type === 'email'){
+    contact = $('leadEmail').value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(contact)){
+      err.textContent = 'Please enter a valid email address — the plan and follow-up quotes are sent here.';
+      err.classList.add('show'); $('leadEmail').classList.add('bad'); return;
+    }
+    $('leadEmail').classList.remove('bad');
+  } else {
+    var digits = $('leadPhone').value.replace(/[^\d]/g,'');
+    if (digits.length < 6 || digits.length > 15){
+      err.textContent = 'Please enter a valid WhatsApp number (6-15 digits).';
+      err.classList.add('show'); $('leadPhone').classList.add('bad'); return;
+    }
+    $('leadPhone').classList.remove('bad');
+    contact = $('leadCode').value + ' ' + digits;
+  }
+  lead = { name:name, type:type, contact:contact };
+  $('regEcho').innerHTML = 'Registered: <b>' + esc(contact) + '</b>' + (name ? ' (' + esc(name) + ')' : '') + '. Fill in the details below and the plan is generated at once; afterwards you can send the plan together with this contact to us in one tap for pricing.';
+  submitFreightLead({
+    name_or_company: lead.name,
+    contact_type: lead.type,
+    contact_value: lead.contact,
+    origin: '',
+    destination: '',
+    cargo_summary: '',
+    quote_summary: 'Step 1: Registration completed',
+    timestamp: new Date().toISOString()
+  });
+  goStep(2);
+});
+
+/* ================= STEP 2: helpers ================= */
+$('backBtn1').addEventListener('click', function(){ goStep(1); });
+$('cartonBtn').addEventListener('click', function(){
+  var n = num($('cCount').value), L = num($('cL').value), W = num($('cW').value), H = num($('cH').value), w = num($('cWgt').value);
+  if (!n || !L || !W || !H){ $('cartonMsg').textContent = 'Enter the carton count and single-carton L/W/H first.'; return; }
+  var vol = n * L * W * H / 1000000;
+  $('pVol').value = vol.toFixed(2);
+  if (w) $('pWeight').value = Math.round(n * w);
+  $('cartonMsg').textContent = 'Calculated: total volume  ' + vol.toFixed(2) + ' CBM' + (w ? ', total gross weight ' + Math.round(n*w) + ' kg' : '') + '. You can also tap Calculate loading plan to see which container it fits.';
+  runLoadCalc(false);
+  updateVolHint();
+});
+$('loadBtn').addEventListener('click', function(){ runLoadCalc(true); });
+function updateVolHint(){
+  var w = num($('pWeight').value), v = num($('pVol').value);
+  if (w > 0 && v > 0){
+    var vwA = v * 167, cwA = Math.max(w, vwA), cwAR = Math.ceil(cwA * 2) / 2;
+    var vwE = v * 200, cwE = Math.max(w, vwE), cwER = Math.ceil(cwE * 2) / 2;
+    $('volHint').textContent = 'Chargeable-weight preview — Air: volumetric weight  ' + Math.round(vwA) + ' kg (÷6000), after greater-of ' + Math.round(cwA) + ' kg, rounded up per 0.5 kg to ' + cwAR + ' kg; Express: volumetric weight  ' + Math.round(vwE) + ' kg (÷5000), rounded to ' + cwER + ' kg; Ocean LCL revenue tonnes ' + Math.max(v, w/1000).toFixed(2) + ' (CBM and tonnes, minimum 1). The full rules are laid out in the Chargeable Weight section of the plan.';
+  }
+}
+/* ---------- Loading calculator ---------- */
+var CONTAINERS = [
+  {key:'20GP', L:589, W:235, H:239, usable:28, payload:28000},
+  {key:'40GP', L:1203, W:235, H:239, usable:58, payload:26700},
+  {key:'40HQ', L:1203, W:235, H:269, usable:68, payload:26700}
+];
+var lastLoad = null;
+function perms3(a,b,c){ return [[a,b,c],[a,c,b],[b,a,c],[b,c,a],[c,a,b],[c,b,a]]; }
+function fitByDims(cont, l, w, h){
+  var best = 0, bestP = null;
+  perms3(l,w,h).forEach(function(p){
+    var n = Math.floor(cont.L/p[0]) * Math.floor(cont.W/p[1]) * Math.floor(cont.H/p[2]);
+    if (n > best){ best = n; bestP = p; }
+  });
+  return {n:best, orient:bestP};
+}
+function computeLoading(count, L, W, H, wgt){
+  var cVol = L * W * H / 1000000;
+  var totalVol = cVol * count, totalWgt = wgt ? wgt * count : 0;
+  var rows = CONTAINERS.map(function(cont){
+    var byDim = fitByDims(cont, L, W, H);
+    var byVol = Math.floor(cont.usable / cVol);
+    var byWgt = wgt ? Math.floor(cont.payload / wgt) : Infinity;
+    var fit = Math.min(byDim.n, byVol, byWgt);
+    var limit = fit === byWgt ? 'payload limit' : (fit === byVol ? 'usable volume' : 'dimension layout');
+    var need = fit > 0 ? Math.ceil(count / fit) : Infinity;
+    var usedInOne = Math.min(count, fit);
+    var util = cont.usable ? (usedInOne * cVol / cont.usable * 100) : 0;
+    var remainVol = Math.max(0, cont.usable - usedInOne * cVol);
+    return {cont:cont, fit:fit, byDim:byDim.n, byVol:byVol, byWgt:byWgt, limit:limit, need:need, util:util, remainVol:remainVol, orient:byDim.orient};
+  });
+  var rec = rows.find(function(r){ return r.need === 1; }) || rows[rows.length-1];
+  return {count:count, L:L, W:W, H:H, wgt:wgt, cVol:cVol, totalVol:totalVol, totalWgt:totalWgt, rows:rows, rec:rec};
+}
+function loadHtml(ld){
+  var rows = ld.rows.map(function(r){
+    return '<tr><td><b>' + r.cont.key + '</b><br /><small style="color:var(--muted)">Internal dims ' + r.cont.L + '×' + r.cont.W + '×' + r.cont.H + ' cm · usable ' + r.cont.usable + ' CBM · payload ' + (r.cont.payload/1000) + ' tonnes</small></td>' +
+      '<td class="r">' + r.fit.toLocaleString('en-US') + ' cartons</td><td class="r">' + (r.need === Infinity ? '—' : r.need + ' container(s)') + '</td>' +
+      '<td class="r">' + r.util.toFixed(1) + '%</td><td class="r">' + r.remainVol.toFixed(1) + ' CBM</td></tr>';
+  }).join('');
+  var recTxt = ld.rec.fit === 0
+    ? 'The single-carton size exceeds the internal container dimensions — <b>Cannot fit in a standard container</b>: switch to a breakbulk vessel plan or redesign the packaging dimensions.'
+    : ld.rec.need === 1
+    ? 'Recommended <b>' + ld.rec.cont.key + '</b> × 1: ' + ld.count + '  cartons all fit, utilization  ' + ld.rec.util.toFixed(1) + '%, with ' + ld.rec.remainVol.toFixed(1) + ' CBM' + (ld.rec.util < 60 ? ' — utilization is low; if you can consolidate more cargo, LCL or waiting until the container fills is better value.' : ld.rec.util >= 92 ? ' — nearly a full container — watch door clearance and leave 10–20 cm. ' : '. ')
+    : 'Even one 40HQ cannot hold it: you need <b>' + ld.rec.need + ' × 40HQ</b> (max per container ' + ld.rec.fit + ' cartons, limited by ' + ld.rec.limit + 'constraint), or ship in batches.';
+  return '<b>Loading result: </b>Single carton ' + ld.L + '×' + ld.W + '×' + ld.H + ' cm = ' + ld.cVol.toFixed(4) + ' CBM' + (ld.wgt ? ' / ' + ld.wgt + ' kg' : '') +
+    ', total ' + ld.count + ' cartons = ' + ld.totalVol.toFixed(2) + ' CBM' + (ld.totalWgt ? ' / ' + Math.round(ld.totalWgt).toLocaleString('en-US') + ' kg' : '') + '. Best orientation example ' + (ld.rec.orient ? ld.rec.orient.join('×') + ' cm' : '') + ' (6 orientations tested, best taken).' +
+    '<table class="mini" style="margin-top:10px"><thead><tr><th>Container</th><th class="r">Max per container</th><th class="r">Needed</th><th class="r">Utilization*</th><th class="r">Space left</th></tr></thead><tbody>' + rows + '</tbody></table>' +
+    '<p style="margin:10px 0 0">' + recTxt + '</p><p class="hint" style="margin:4px 0 0">*Utilization = loaded volume ÷ usable volume; if it does not fit, check the binding constraint: dimension layout / usable volume / payload limit — the plan page double-checks this.</p>';
+}
+function runLoadCalc(show){
+  var n = num($('cCount').value), L = num($('cL').value), W = num($('cW').value), H = num($('cH').value), w = num($('cWgt').value);
+  if (!n || !L || !W || !H){ $('cartonMsg').textContent = 'Enter the carton count and single-carton L/W/H first, then run the loading calculation.'; return null; }
+  lastLoad = computeLoading(n, L, W, H, w);
+  var box = $('loadResult'); box.innerHTML = loadHtml(lastLoad); box.hidden = false;
+  if (show) box.scrollIntoView({behavior:'smooth', block:'nearest'});
+  return lastLoad;
+}
+['pWeight','pVol'].forEach(function(id){ $(id).addEventListener('input', updateVolHint); });
+function updateTermHint(){
+  var t = document.querySelector('input[name="term"]:checked').value;
+  $('termHint').textContent = TERM_HINTS[t];
+}
+document.querySelectorAll('input[name="term"]').forEach(function(r){ r.addEventListener('change', updateTermHint); });
+
+/* ================= Quote engine ================= */
+function computePlan(inp){
+  var c = inp.country, R = REGIONS[inp.regionKey], cat = CATS[inp.catKey];
+  var revTon = Math.max(inp.vol, inp.weight / 1000);
+  var chargeKg = Math.max(inp.weight, inp.vol * 167);
+  var courierKg = Math.max(inp.weight, inp.vol * 200); /* Express volumetric weight = CBM × 200 */
+  var tonnes = inp.weight / 1000;
+  var pieceW = inp.pieceW > 0 ? inp.pieceW : (inp.qty > 0 ? inp.weight / inp.qty : inp.weight);
+  var oversize = pieceW > 2000 || inp.pieceL > 600;
+
+  /* Route factor: China-origin lanes use the live-rate benchmark; other origins are modeled from regional-hub distances with widened ranges */
+  var dCN = hubDist('china', inp.regionKey) || 1;
+  var dRoute = hubDist(inp.oRegion, inp.regionKey);
+  var indicative = inp.oRegion !== 'china';
+  var f = indicative ? Math.min(2.2, Math.max(0.5, 0.45 + 0.55 * dRoute / dCN)) : 1;
+  function scale(r){ if (!r) return null; var lo = r[0] * f, hi = r[1] * f; if (indicative){ lo *= 0.85; hi *= 1.3; } return [lo, hi]; }
+
+  var isFCL = inp.vol >= 13 && inp.form === 'general';
+  var fclType = inp.vol <= 28 ? '20GP' : '40HQ';
+  var seaIntl = isFCL ? scale(inp.vol <= 28 ? R.f20 : R.f40) : scale(mulR(R.lcl, Math.max(revTon, 1)));
+  var tier = chargeKg < 45 ? 1.4 : chargeKg < 100 ? 1.2 : chargeKg < 300 ? 1.1 : chargeKg < 500 ? 1.0 : 0.9;
+  var airIntl = scale(mulR(R.air, Math.max(chargeKg * tier, 25)));
+  var seaDays = [R.seaD[0] + 3, R.seaD[1] + 6];
+  var airDays = R.airD.slice();
+  var expDays = [Math.max(2, R.airD[0] - 1), Math.max(4, R.airD[1] - 1)];
+  var landOk = EURASIA.indexOf(inp.oRegion) >= 0 && EURASIA.indexOf(inp.regionKey) >= 0 && inp.oRegion !== inp.regionKey;
+  var railPrice = landOk ? scale(mulR(R.air, Math.max(chargeKg, 45) * 0.38)) : null;
+  var railDays = landOk ? [Math.max(12, Math.round(dRoute / 420)), Math.max(18, Math.round(dRoute / 420) + 7)] : null;
+
+  /* Applicable modes only; non-applicable ones are not generated */
+  var modes = [];
+  if (inp.form === 'general'){
+    modes.push({key:'sea', name: isFCL ? 'Ocean FCL ' + fclType : 'Ocean LCL', price: seaIntl, per:'International-leg freight', days: seaDays,
+      fit:'Best value for large, heavy, non-urgent cargo; slowest transit, with rollover and congestion risk in peak season.'});
+  }
+  if (inp.form === 'bulk' || tonnes >= 100){
+    var perT = scale(BULKR[inp.regionKey]);
+    var vessel = tonnes < 5000 ? 'Small bulk carrier (thousand-tonne class)' : tonnes < 35000 ? 'Handysize (20,000-40,000 DWT class)' : tonnes < 60000 ? 'Supramax (50,000-60,000 DWT class)' : tonnes < 90000 ? 'Panamax (60,000-80,000 DWT class)' : 'Capesize (over 100,000 DWT)';
+    modes.push({key:'bulk', name:'Bulk carrier · ' + vessel, price: mulR(perT, Math.max(tonnes, 1)), per:'Ocean freight indication (' + rng(perT) + ' / tonne × ' + Math.round(tonnes).toLocaleString('en-US') + ' tonnes)', tag:'Indication', days:[seaDays[0] + 5, seaDays[1] + 10],
+      fit:'Bulk cargo by full vessel / voyage charter, priced per tonne. Bulk moves on the charter market with no fixed tariff; prices float with schedule, vessel type and laytime terms. Indication only.'});
+  }
+  if (oversize || inp.form === 'bulk'){
+    modes.push({key:'breakbulk', name:'Breakbulk vessel (heavy lift)', price: scale(mulR(R.lcl, Math.max(revTon, 1) * 2.4)), per:'International-leg freight (per revenue tonne; lifting charged separately)', days:[seaDays[0] + 3, seaDays[1] + 7],
+      fit:'Oversize, overweight equipment that cannot fit in a container: stowed on deck / under deck, charged per piece — suited to machinery, steel structures and project equipment.'});
+  }
+  if (inp.form === 'general'){
+    modes.push({key:'air', name:'Air freight', price: airIntl, per:'International-leg freight (chargeable weight ' + Math.round(chargeKg) + ' kg)', days: airDays,
+      fit:'Urgent, high-value, light and small cargo; charged on the greater of volumetric and actual weight, so bulky cargo gets expensive fast.'});
+  }
+  if (landOk && inp.form === 'general'){
+    modes.push({key:'rail', name: (inp.oRegion === 'china' || inp.regionKey === 'china') ? 'China-Europe rail / cross-border trucking' : 'Rail / land trucking', price: railPrice, per:'International-leg freight', days: railDays,
+      fit:'Eurasia lanes connected by land: transit is about half of sea freight at roughly 40% of the air freight cost; FCL and LCL both work, oversize cargo needs a separate check.'});
+  }
+  if (inp.form !== 'bulk' && pieceW <= 70){
+    var zone = scale(EXPZ[inp.regionKey]);
+    var expPrice = mulR(zone, Math.max(courierKg, 0.5)).map(function(x){ return Math.max(x, 28); });
+    modes.push({key:'express', name:'Commercial express parcel', price: expPrice, per:'Door to door incl. fuel (zone rate ' + rng(zone) + ' / kg, chargeable weight ' + Math.round(courierKg) + ' kg)', days: expDays,
+      fit:'DHL / UPS / FedEx zone pricing, door to door including clearance and delivery; max 70 kg per piece, longest side 274 cm — oversize pieces are split or switched to air freight automatically.'});
+    if (pieceW <= 2){
+      var postZone = mulR(zone, 0.55);
+      var postPrice = mulR(postZone, Math.max(courierKg, 0.3)).map(function(x){ return Math.max(x, 9); });
+      modes.push({key:'postal', name:'Postal parcel', price: postPrice, per:'Door to door (zone rate about  ' + rng(postZone) + ' / kg)', days:[expDays[0] + 6, expDays[1] + 12],
+        fit:'UPU postal channel — cheapest for light pieces up to 2 kg per piece; slower transit, sparse tracking updates, compensation capped at postal limits.'});
+    }
+  }
+  var byKey = {}; modes.forEach(function(m){ byKey[m.key] = m; });
+
+  /* Recommendation */
+  var density = inp.value / Math.max(chargeKg, 1);
+  var pick, reason;
+  if (inp.form === 'bulk'){
+    if (tonnes >= 300){ pick = 'bulk'; reason = 'Bulk cargo ' + Math.round(tonnes).toLocaleString('en-US') + '  tonnes: matched by tonnage to  ' + vessel + ', per-tonne rates for a full vessel / voyage charter are far below the container-equivalent price. Bulk has no fixed tariff; this is an indication, to be confirmed live by a broker before booking.'; }
+    else { pick = 'breakbulk'; reason = 'Bulk cargo, but the total is only ' + Math.round(tonnes) + ' tonnes — not enough for an economical full-vessel lot; a breakbulk part-load works out cheaper. For larger volumes, ask for a full-vessel quote.'; }
+  } else if (oversize){
+    pick = 'breakbulk'; reason = 'Single piece oversize (heaviest about ' + Math.round(pieceW) + ' kg' + (inp.pieceL > 0 ? ', longest side ' + inp.pieceL + ' cm' : '') + '), cannot fit in a container or on an aircraft, so it is priced on a breakbulk vessel plan.';
+  } else if (inp.form === 'parcel'){
+    if (inp.urgency === 'slow' && byKey.postal){ pick = 'postal'; reason = 'Parcels, not urgent: postal zone rates are the lowest; single piece ' + (Math.round(pieceW * 10) / 10) + ' kg within the 2 kg limit; transit is about a week slower than commercial express.'; }
+    else { pick = 'express'; reason = 'Parcels: commercial express zone rates, door to door, with clearance and delivery handled in one stop; chargeable weight ' + Math.round(courierKg) + ' kg (Volumetric weight as CBM×200 and actual weight, greater taken).'; }
+  } else if (inp.urgency === 'fast'){
+    if (byKey.express && courierKg <= 70){ pick = 'express'; reason = 'Express timing + small volume (chargeable weight ' + Math.round(courierKg) + '  kg) — commercial express is the fastest door to door, with clearance handled by the courier in one stop.'; }
+    else { pick = 'air'; reason = 'On an express timeline sea cannot make it; air takes ' + airDays[0] + '–' + airDays[1] + '  days to the door; chargeable weight ' + Math.round(chargeKg) + ' kg, air freight is about ' + Math.round(mid(airIntl) / inp.value * 100) + '%. '; }
+  } else if (isFCL){
+    pick = 'sea'; reason = 'volume ' + inp.vol + ' CBM has reached FCL volume; FCL (' + fclType + ')unit cost is far below LCL and air; air for this shipment would cost ' + rng(airIntl) + ', about ' + Math.max(2, Math.round(mid(airIntl) / mid(seaIntl))) + 'x.';
+  } else if (landOk && inp.urgency === 'normal' && seaDays[0] >= 25 && revTon >= 1 && revTon <= 60){
+    pick = 'rail'; reason = 'Origin and destination are connected by land: rail / truck takes about ' + railDays[0] + '–' + railDays[1] + ' days — about half the sea transit time at roughly 40% of the air cost, the most balanced value.';
+  } else if (inp.urgency === 'normal' && chargeKg < 120 && density >= 6 && airIntl[1] <= seaIntl[1] * 2.2){
+    pick = 'air'; reason = 'Cargo value density is high (about $ $' + density.toFixed(1) + '/kg), air freight is an acceptable share of cargo value, and faster than sea by about ' + Math.max(5, seaDays[0] - airDays[1]) + '  days or more, so cash turnover works out better.';
+  } else if (inp.vol < 0.5 && chargeKg < 30 && byKey.express){
+    pick = 'express'; reason = 'The volume is tiny (' + inp.vol + ' CBM / ' + Math.round(courierKg) + ' kg), priced as a small parcel, express works out cheaper than the LCL minimum charge, and saves destination-port fees too.';
+  } else {
+    pick = 'sea'; reason = 'On value for money: sea freight ' + rng(seaIntl) + ', air would cost ' + rng(airIntl) + '(about ' + Math.max(2, Math.round(mid(airIntl) / Math.max(mid(seaIntl), 1))) + 'x).' + (inp.urgency === 'slow' ? 'You chose not urgent — sea is the cheapest option.' : 'Neither the volume nor the value density justifies the air premium.');
+  }
+  var pm = byKey[pick];
+  var intl = pm.price;
+  var days = pm.days;
+  var modeName = pm.name;
+
+  /* Origin leg */
+  var originSeg, originDesc;
+  if (pick === 'bulk'){
+    originSeg = [Math.max(120, tonnes * 3.5), Math.max(200, tonnes * 6)];
+    originDesc = inp.oLabel + 'Port collection transport + loading-port charges (per tonne)';
+  } else if (pick === 'express' || pick === 'postal'){
+    originSeg = [8, 20];
+    originDesc = inp.oLabel + 'Door pickup / drop-off point (parcel collection, including label and sorting)';
+  } else {
+    var pickupR = inp.oRegion === 'china' ? [50, 85] : [70, 130];
+    originSeg = addR(pickupR, [40, 65]); /* Pickup to warehouse + export declaration */
+    if (isFCL && pick === 'sea') originSeg = addR(originSeg, [170, 300]); /* FCL drayage */
+    originDesc = inp.oLabel + 'pickup to warehouse + export customs declaration (broker and document fees)';
+  }
+
+  /* Destination leg */
+  var inland = inp.isPortCity ? R.inP.slice() : R.inF.slice();
+  var destSeg, destDesc;
+  if (pick === 'sea'){
+    var portFee = isFCL ? [260, 430] : [Math.max(65, R.destCbm[0] * revTon), Math.max(95, R.destCbm[1] * revTon)];
+    destSeg = addR(addR(portFee, R.clear), inland);
+    destDesc = 'Destination port charges + clearance agency fee +  ' + (inp.isPortCity ? 'Local delivery to the door' : 'Inland transport to  ' + inp.city + '  and delivery');
+  } else if (pick === 'bulk'){
+    destSeg = addR(addR(mulR([4, 8], Math.max(tonnes, 1)), R.clear), inp.isPortCity ? [40, 90] : inland);
+    destDesc = 'Discharge + destination port charges (per tonne) + clearance agency fee' + (inp.isPortCity ? ' + short-haul within the port area' : ' + Inland port evacuation to  ' + inp.city);
+  } else if (pick === 'breakbulk'){
+    destSeg = addR(addR([300, 520], R.clear), inland);
+    destDesc = 'Destination port charges (including heavy-lift discharge) + clearance agency fee +  ' + (inp.isPortCity ? 'Local delivery to the door' : 'Inland transport to  ' + inp.city + '  and delivery');
+  } else if (pick === 'air' || pick === 'rail'){
+    destSeg = addR(addR([35, 70], R.clear), inland);
+    destDesc = 'Destination port / terminal charges + clearance agency fee +  ' + (inp.isPortCity ? 'Local delivery to the door' : 'Inland transport to  ' + inp.city + '  and delivery');
+  } else {
+    destSeg = [5, 15];
+    destDesc = 'Express clearance handling and last-mile delivery (already inside the door-to-door basis; this is a small sundry allowance)';
+  }
+
+  /* Taxes (incl. parcel de minimis check) */
+  var dutyRate = c.dutyFlat != null ? [c.dutyFlat, c.dutyFlat] : mulR(cat.duty, c.dutyMult || 1);
+  dutyRate = dutyRate.map(function(x){ return Math.round(x * 10) / 10; });
+  var dutyAmt = mulR([inp.value, inp.value], 1).map(function(v, i){ return v * dutyRate[i] / 100; });
+  var demin = DEMIN[c.zh];
+  var deminApplied = false;
+  if (demin && inp.value <= demin[0] && (pick === 'express' || pick === 'postal')){
+    dutyAmt = [0, 0]; deminApplied = true;
+  }
+  var vatRate = c.vat || 0;
+  var vatAmt = [0, 0];
+  if (vatRate > 0){
+    vatAmt = [ (inp.value + intl[0] + dutyAmt[0]) * vatRate / 100, (inp.value + intl[1] + dutyAmt[1]) * vatRate / 100 ];
+  }
+
+  var intlDesc = modeName + ' · ' +
+    (pick === 'sea' || pick === 'bulk' || pick === 'breakbulk' ? c.port :
+     pick === 'air' ? c.airp :
+     pick === 'rail' ? 'Exit via land border crossing, terminal to terminal plus short-haul at both ends' :
+     'Zone rate, door to door, including fuel-surcharge movement') +
+    (pick === 'bulk' ? ' (indication only — subject to live charter-market confirmation)' : ', including fuel and peak-season surcharge movement');
+  var segs = [
+    {name:'Origin leg', desc: originDesc, amt: originSeg},
+    {name:'International leg', desc: intlDesc, amt: intl},
+    {name:'Destination leg', desc: destDesc, amt: destSeg},
+    {name:'Taxes', desc: 'Duty ' + dutyRate[0] + (dutyRate[1] !== dutyRate[0] ? '–' + dutyRate[1] : '') + '% + ' + c.vatName + (deminApplied ? '; the cargo value is within the parcel de minimis threshold, so duty is counted at $0' : ''), amt: addR(dutyAmt, vatAmt)}
+  ];
+  var payers = TERM_PAYERS[inp.term];
+  var total = [0, 0], buyerPays = [0, 0];
+  segs.forEach(function(s, i){ total = addR(total, s.amt); if (!payers[i]) buyerPays = addR(buyerPays, s.amt); });
+
+  /* --- v3: Break-even / chargeable weight / stage-by-stage transit --- */
+  var lclIntl = scale(mulR(R.lcl, Math.max(revTon, 1)));
+  var fcl20Intl = scale(R.f20), fcl40Intl = scale(R.f40);
+  var beLow = R.lcl[1] ? (R.f20[0] / R.lcl[1]) : 13, beHigh = R.lcl[0] ? (R.f20[1] / R.lcl[0]) : 15;
+  if (indicative){ beLow *= 0.9; beHigh *= 1.1; }
+  var beMid = (beLow + beHigh) / 2;
+  var breakInfo = {lclIntl:lclIntl, fcl20Intl:fcl20Intl, fcl40Intl:fcl40Intl, beLow:beLow, beHigh:beHigh, beMid:beMid,
+    lclPerCbm: R.lcl, savingVsLcl: null};
+  if (inp.vol >= beMid) breakInfo.savingVsLcl = [lclIntl[0]-fcl20Intl[0], lclIntl[1]-fcl20Intl[1]];
+  function round05(x){ return Math.ceil(x*2)/2; }
+  var chargeInfo = {
+    weight: inp.weight, vol: inp.vol,
+    air: {divisor:6000, factor:167, volW: inp.vol*167, raw: chargeKg, rounded: round05(chargeKg), rule:'Rounded up per 0.5 kg; a part of 0.5 counts as 0.5', rate: R.air},
+    express: {divisor:5000, factor:200, volW: inp.vol*200, raw: courierKg, rounded: round05(courierKg), rule:'Rounded up per 0.5 kg; first and additional weight on the same basis', rate: scale(EXPZ[inp.regionKey])},
+    sea: {revTon: revTon, raw: revTon, rounded: Math.max(1, Math.ceil(revTon*10)/10), rule:'Revenue tonne is the greater of CBM and tonnes, minimum 1 revenue tonne, rounded up per 0.1', rate: R.lcl}
+  };
+  var stages = buildStages(pick, R, inp, days);
+  var stageTotal = stages.reduce(function(acc,s){ return [acc[0]+s.days[0], acc[1]+s.days[1]]; }, [0,0]);
+  return { pick:pick, modeName:modeName, reason:reason, days:days, segs:segs, total:total, buyerPays:buyerPays,
+    modes:modes, indicative:indicative, pieceW:pieceW, chargeKg:chargeKg, revTon:revTon, isFCL:isFCL, fclType:fclType,
+    dutyRate:dutyRate, dutyAmt:dutyAmt, vatRate:vatRate, vatAmt:vatAmt, intl:intl, deminApplied:deminApplied,
+    breakInfo:breakInfo, chargeInfo:chargeInfo, stages:stages, stageTotal:stageTotal };
+}
+function buildStages(pick, R, inp, days){
+  var portCity = inp.isPortCity;
+  if (pick === 'sea'){
+    return [
+      {name:'Booking and cargo readiness', desc:'Confirm sailing, space release, factory readiness and delivery booking; in peak season book 7-10 days ahead', days:[2,3]},
+      {name:'Pickup into warehouse and export declaration', desc:'Pickup to warehouse, tally and labeling, export declaration and release; an inspection adds 1-3 days', days:[2,3]},
+      {name:'Ocean transport', desc:'Origin port to destination port sailing, including transshipment waits (ocean days for this lane)', days: R.seaD.slice()},
+      {name:'Destination-port clearance', desc:'Document exchange, clearance declaration, tax payment and customs release; an inspection adds 3-7 days', days:[2,4]},
+      {name: portCity ? 'Local delivery to the door' : 'Inland transfer and delivery', desc: portCity ? 'Container pickup at the port, devanning and local delivery' : 'After clearance, inland trucking / rail to the destination city, then delivery', days: portCity ? [1,2] : [3,6]},
+      {name:'Buffer', desc:'Allowance for congestion, rollovers, weather and holidays — not a promise, but plan your sales schedule on it', days:[2,4]}
+    ];
+  }
+  if (pick === 'air'){
+    return [
+      {name:'Booking and cargo readiness', desc:'Confirm flight and pallet space; urgent cargo booked today can fly tomorrow', days:[1,2]},
+      {name:'Pickup into warehouse and export declaration', desc:'Delivery to the airport cargo terminal, security screening, export declaration', days:[1,2]},
+      {name:'Air transport', desc:'Origin airport to destination airport, including transfers', days: R.airD.slice()},
+      {name:'Destination-port clearance', desc:'Arrival clearance and tax payment; with documents complete, usually 1-2 days', days:[1,2]},
+      {name: portCity ? 'Local delivery to the door' : 'Inland transfer and delivery', desc:'Delivery to the door after clearance', days: portCity ? [1,2] : [2,4]},
+      {name:'Buffer', desc:'Allowance for flight delays and inspections', days:[1,2]}
+    ];
+  }
+  if (pick === 'express' || pick === 'postal'){
+    var isPost = pick === 'postal';
+    return [
+      {name:'Collection and posting', desc: isPost ? 'Postal drop-off / door collection and sorting' : 'Courier door pickup, weighing and labeling', days:[0,1]},
+      {name:'Export clearance and outbound', desc:'Export declaration and air outbound processing', days:[1,1]},
+      {name:'International mainline', desc: isPost ? 'Postal air / sea-air interline; tracking updates are slow' : 'Courier own / partner air mainline', days: days.slice()},
+      {name:'Destination clearance', desc: isPost ? 'Postal clearance; low-value parcels mostly use simplified declaration' : 'Courier clears in one stop; taxes follow the de minimis rules', days:[1,2]},
+      {name:'Last-mile delivery', desc:'Local post / courier delivers to the door', days:[1,3]},
+      {name:'Buffer', desc:'Allowance for sorting backlogs and remote-area extra time', days: isPost ? [3,7] : [1,2]}
+    ];
+  }
+  if (pick === 'rail'){
+    return [
+      {name:'Booking and cargo readiness', desc:'Confirm the block train / service and container slot', days:[2,3]},
+      {name:'Delivery into the terminal and export declaration', desc:'Delivery to the rail terminal, container loading and bracing, export declaration', days:[2,3]},
+      {name:'Rail / land mainline', desc:'Border-crossing exit, transloading and mainline transport', days: days.slice()},
+      {name:'Destination-station clearance', desc:'Arrival-station clearance and tax payment', days:[2,3]},
+      {name:'Last-mile delivery', desc:'Pickup at the terminal, then truck delivery to the door', days:[1,3]},
+      {name:'Buffer', desc:'Allowance for border congestion and transloading waits', days:[2,4]}
+    ];
+  }
+  if (pick === 'bulk' || pick === 'breakbulk'){
+    return [
+      {name:'Vessel / space booking and cargo readiness', desc:'Voyage-charter schedule confirmation or breakbulk booking; cargo assembled at port', days:[3,5]},
+      {name:'Port collection and loading', desc:'Port collection transport, port charges, lifting and loading; heavy lifts need a confirmed lifting plan', days:[3,5]},
+      {name:'Ocean transport', desc:'Origin port to destination port sailing; bulk vessel speed and waiting time counted separately', days: R.seaD.slice()},
+      {name:'Discharge and clearance', desc:'Discharge, port charges, clearance and tax payment', days:[3,5]},
+      {name: portCity ? 'Short-haul within the port area and handover' : 'Inland port evacuation and delivery', desc:'Port-evacuation transfer to destination', days: portCity ? [1,3] : [3,7]},
+      {name:'Buffer', desc:'Bulk cargo is heavily affected by weather, tides and port queues — the buffer cannot be skipped', days:[3,5]}
+    ];
+  }
+  return [{name:'International transport', desc:'Door-to-door transport', days: days.slice()}, {name:'Clearance and delivery', desc:'Delivery to the door after clearance', days:[2,4]}, {name:'Buffer', desc:'Flexibility allowance', days:[1,3]}];
+}
+
+/* ================= Document checklist ================= */
+function buildDocs(inp, c, cat){
+  var isSea = ['sea','bulk','breakbulk'].indexOf(lastPlan.pick) >= 0;
+  var base = [
+    ['Commercial Invoice', 'Product name, quantity, unit price, total value and both parties — must match the customs declaration exactly', 'Exporter'],
+    ['Packing List', 'Pieces per carton, gross/net weight and volume — must match the actual packing', 'Exporter'],
+    ['Export customs declaration', 'Declared by our broker; HS code rechecked before booking', 'Exporter / us'],
+    [isSea ? 'Ocean Bill of Lading' : 'Air Waybill', isSea ? 'Original or telex release; cargo is collected against the document' : 'Travels with the cargo; non-negotiable', 'Carrier'],
+    ['Certificate of Origin (CO) / preferential certificate of origin', 'FTA countries enjoy duty reductions with a Form E and similar certificates; without an FTA, the CO is used for clearance verification', 'Exporter']
+  ];
+  var destDocs = (c.docs && c.docs.length) ? c.docs : [['Importer tax ID / customs registration', 'Required for the clearance entity', 'Importer']];
+  var catDocs = (cat.docs || []).slice();
+  if (inp.battery) catDocs.push(['UN38.3 test summary + MSDS', 'Essential for powered-product transport and clearance', 'Exporter'], ['Air / ocean transport appraisal report', 'Determines whether it can move as general cargo', 'Exporter / test lab']);
+  if (inp.liquid) catDocs.push(['MSDS safety data sheet', 'Essential for liquids, powders and creams', 'Exporter'], ['Non-dangerous-goods appraisal report (depending on composition)', 'Determines whether it must move as dangerous goods', 'Exporter / test lab']);
+  if (cat.foodFlag) catDocs.push(['Certificate of Free Sale (depending on destination)', 'A common requirement for food products', 'Exporter']);
+  return { base:base, dest:destDocs, cat:catDocs };
+}
+
+/* ================= STEP 2: submit ================= */
+$('shipForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  var err = $('shipErr'); err.classList.remove('show');
+  var bad = [];
+  function mark(id, ok){ $(id).classList.toggle('bad', !ok); if (!ok) bad.push(id); }
+  var inp = {
+    name: $('pName').value.trim(),
+    catKey: $('pCat').value,
+    hs: $('pHs').value.trim(),
+    qty: num($('pQty').value),
+    weight: num($('pWeight').value),
+    vol: num($('pVol').value),
+    value: num($('pValue').value),
+    oCountryVal: $('oCountry').value,
+    oCity: $('oCity').value.trim(),
+    oAddr: $('oAddr').value.trim(),
+    form: document.querySelector('input[name="cargoForm"]:checked').value,
+    pieceW: num($('pieceW').value),
+    pieceL: num($('pieceL').value),
+    city: $('dCity').value.trim(),
+    addr: $('dAddr').value.trim(),
+    urgency: document.querySelector('input[name="urgency"]:checked').value,
+    term: document.querySelector('input[name="term"]:checked').value,
+    battery: $('flagBattery').checked,
+    liquid: $('flagLiquid').checked,
+    brand: $('flagBrand').checked,
+    cCount: num($('cCount').value), cL: num($('cL').value), cW: num($('cW').value), cH: num($('cH').value), cWgt: num($('cWgt').value)
+  };
+  if (inp.cCount && inp.cL && inp.cW && inp.cH){ inp.load = computeLoading(inp.cCount, inp.cL, inp.cW, inp.cH, inp.cWgt); lastLoad = inp.load; }
+  else if (lastLoad && Math.abs(lastLoad.totalVol - inp.vol) < 0.51){ inp.load = lastLoad; }
+  mark('pName', !!inp.name);
+  mark('pWeight', inp.weight > 0);
+  mark('pVol', inp.vol > 0);
+  mark('pValue', inp.value > 0);
+  mark('dCity', !!inp.city);
+  mark('oCity', !!inp.oCity);
+  var cIdx = $('dCountry').value;
+  mark('dCountry', cIdx !== '');
+  if (bad.length){
+    err.textContent = 'Some required fields are still missing (marked in red): product name, total gross weight, total volume, total cargo value, origin city, destination country and destination city.';
+    err.classList.add('show');
+    $(bad[0]).focus();
+    return;
+  }
+  var c = COUNTRIES[parseInt(cIdx, 10)];
+  var oRec = inp.oCountryVal === 'CN' ? null : COUNTRIES[parseInt(inp.oCountryVal, 10)];
+  inp.oRegion = oRec ? oRec.r : 'china';
+  inp.oLabel = (oRec ? oRec.zh : 'China') + ' · ' + inp.oCity;
+  /* US East/West region switch by city */
+  var regionKey = c.r, port = c.port, airp = c.airp;
+  var cityLc = inp.city.toLowerCase();
+  if (c.alt && c.alt.match.some(function(m){ return cityLc.indexOf(m) >= 0; })){
+    regionKey = c.alt.r; port = c.alt.port; airp = c.alt.airp;
+  }
+  var isPortCity = (c.cities || []).some(function(m){ return cityLc.indexOf(m) >= 0; });
+  inp.country = { zh:c.zh, en:c.en, vat:c.vat, vatName:c.vatName, dutyFlat:c.dutyFlat, dutyMult:c.dutyMult, port:port, airp:airp };
+  inp.regionKey = regionKey;
+  inp.isPortCity = isPortCity;
+  inp.countryRaw = c;
+
+  lastPlan = computePlan(inp);
+  lastPlan.inp = inp;
+  lastPlan.docs = buildDocs(inp, c, CATS[inp.catKey]);
+
+  var submitBtn = document.querySelector('#shipForm button[type="submit"]');
+  var origBtnHtml = submitBtn ? submitBtn.innerHTML : '';
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = 'Generating plan & saving...';
+  }
+
+  var fullLeadPayload = {
+    name_or_company: lead ? lead.name : '',
+    contact_type: lead ? lead.type : 'email',
+    contact_value: lead ? lead.contact : '',
+    origin: inp.oLabel,
+    destination: (c.en || c.zh) + ' · ' + inp.city,
+    cargo_summary: inp.name + ' (' + cat.label + (inp.hs ? ', HS ' + inp.hs : '') + '), ' + (inp.qty ? inp.qty + ' pcs, ' : '') + inp.weight + ' kg, ' + inp.vol + ' CBM, value $' + inp.value + ', term ' + inp.term,
+    quote_summary: lastPlan.modeName + ' door-to-door, total est ' + rng(lastPlan.total) + ', transit ' + lastPlan.days[0] + '–' + lastPlan.days[1] + ' days (' + inp.term + ')',
+    timestamp: new Date().toISOString()
+  };
+
+  submitFreightLead(fullLeadPayload, function(ok, data){
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = origBtnHtml;
+    }
+    renderPlan();
+    goStep(3);
+  });
+});
+
+/* ================= STEP 3: render ================= */
+function docGroup(title, items){
+  if (!items.length) return '';
+  var lis = items.map(function(d){
+    return '<li><span class="ck"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>' +
+      '<span><b>' + esc(d[0]) + '</b><small>' + esc(d[1]) + '</small></span>' +
+      '<span class="who"><span class="payer b">' + esc(d[2]) + '</span></span></li>';
+  }).join('');
+  return '<div><h4>' + title + '</h4><ul>' + lis + '</ul></div>';
+}
+function modeCard(name, price, per, days, fit, picked, tag){
+  return '<div class="mode' + (picked ? ' pick' : '') + '">' + (picked ? 'Recommended' : '') +
+    '<div class="mt">' + name + (tag && !picked ? ' <span class="badge gold">' + tag + '</span>' : '') + '</div><div class="price num">' + rng(price) + '</div>' +
+    '<div class="per">' + per + ' · Door to door about  ' + days[0] + '–' + days[1] + ' days</div>' +
+    '<div class="fit">' + fit + '</div></div>';
+}
+function renderPlan(){
+  var p = lastPlan, inp = p.inp, c = inp.countryRaw, cat = CATS[inp.catKey];
+  var warnings = [];
+  if (p.indicative) warnings.push('Origin is not China: the live-rate benchmarks of this tool are China-origin lanes (Yiwu forwarder rates). Other origins are modeled from regional-hub distances and rate benchmarks with widened ranges; final prices are subject to a manual live quote.');
+  if (p.pick === 'bulk') warnings.push('Bulk carrier prices are indications only: bulk cargo moves on the charter market with no fixed tariff; the final price depends on the sailing schedule, vessel type, laytime terms (FIOST etc.) and port charges, and must be confirmed live by a broker or shipowner before booking. This plan is not a booking quote.');
+  var dmInfo = DEMIN[c.zh];
+  if (dmInfo && (p.pick === 'express' || p.pick === 'postal')) warnings.push('Destination parcel de minimis reference: ' + dmInfo[1] + '. ' + (p.deminApplied ? 'The cargo value is within the de minimis threshold; duty has been counted at $0 estimate (whether VAT applies follows the rules of that country).' : 'The cargo value exceeds the de minimis threshold; taxes are estimated in full.'));
+  (c.notes || []).forEach(function(n){ warnings.push(n); });
+  if (c.inlandNote) warnings.push(c.inlandNote + '. ');
+  if (inp.battery) warnings.push('Battery products: pure lithium batteries face strict air restrictions (PI965), and powered products need a transport appraisal first; some lanes can only move by sea or on battery-approved channels. Prices here assume a channel that can accept the cargo — recheck before booking.');
+  if (inp.liquid) warnings.push('Liquids / powders / creams: air channels are often restricted, so sea is usually preferred; an MSDS is needed to classify the goods, and white powders face very high inspection rates in some countries.');
+  if (inp.brand) warnings.push('Branded goods: please confirm you hold trademark authorization or proper purchase invoices. Destination customs seize infringing goods and impose fines; we do not carry counterfeit goods without authorization.');
+  if (cat.foodFlag) warnings.push('Food: shelf life, label language and import permits are demanding — for a first import, start with a small trial shipment to test clearance.');
+  if (!inp.addr) warnings.push('No street address given: the inland leg is estimated at the general level for the destination city; adding street and postcode narrows the range.');
+  if (c.generic) warnings.push('This destination is estimated with the generic template for now: rates use regional benchmarks and duty uses generic category ranges. We will verify manually and issue a formal quote before booking.');
+  warnings.push('All amounts are estimate ranges: rates move with space, peak season and fuel surcharges; the binding booking price is the written quote from the forwarder. Duty is finally ruled by destination customs under the HS code.');
+
+  var payers = TERM_PAYERS[inp.term];
+  var segRows = p.segs.map(function(s, i){
+    return '<tr><td><span class="sn">' + s.name + '</span><span class="sd">' + esc(s.desc) + '</span></td>' +
+      '<td><span class="payer ' + (payers[i] ? 's' : 'b') + '">' + (payers[i] ? 'Seller pays' : 'Buyer pays') + '</span></td>' +
+      '<td class="r amt num">' + rng(s.amt) + '</td></tr>';
+  }).join('');
+
+  var modesHtml = p.modes.map(function(m){
+    return modeCard(m.name, m.price, m.per, m.days, m.fit, m.key === p.pick, m.tag);
+  }).join('');
+
+  var html = '';
+  if (leadSubmitStatus === 'success') {
+    html += '<div class="lead-banner success">' +
+      '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>' +
+      '<div><b>Inquiry logged successfully.</b> Our pricing desk has received your cargo specifications and registered contact info. Your shipping plan is detailed below; you can also tap <b>Send via WhatsApp</b> or <b>Email the plan to us</b> for immediate price confirmation.</div>' +
+      '</div>';
+  } else if (leadSubmitStatus === 'failed') {
+    html += '<div class="lead-banner warn">' +
+      '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>' +
+      '<div><b>Notice:</b> Online inquiry auto-logging encountered a temporary network delay, but your shipping plan is ready below! Please tap <b>Send via WhatsApp</b> or <b>Email the plan to us</b> below to confirm live pricing and space with our team.</div>' +
+      '</div>';
+  }
+  html += '<div class="route-line"><span class="place">' + esc(inp.oLabel) + '</span><span class="arrow">→</span>' +
+    '<span class="place">' + esc(c.zh) + ' · ' + esc(inp.city) + '</span>' +
+    '<span class="badge gold">' + esc(inp.name) + (inp.hs ? ' · HS ' + esc(inp.hs) : '') + '</span>' +
+    '<span class="badge line">' + esc(cat.label) + '</span>' +
+    '<span class="badge line">' + esc(inp.term) + '</span>' +
+    (c.generic ? 'Generic-template estimate' : 'Detailed data') +
+    (p.indicative ? 'Non-China origin · model estimate' : '') +
+    (p.pick === 'bulk' ? 'live quote required' : '') + '</div>';
+
+  html += 'Recommended plan' +
+    '<p class="rmode">' + p.modeName + ' door-to-door</p>' +
+    '<p class="rreason">' + esc(p.reason) + '</p>' +
+    '<div class="rstats">' +
+      '<div class="stat"><small>Total door-to-door cost (incl. taxes, estimate)</small><b class="num gold">' + rng(p.total) + '</b></div>' +
+      'Door-to-door transit (stage-by-stage total)' + p.stageTotal[0] + '–' + p.stageTotal[1] + ' days</b></div>' +
+      '<div class="stat"><small>' + (p.buyerPays[1] > 0 ? 'Of which the buyer pays separately (' + esc(inp.term) + ')' : 'Buyer pays separately') + '</small><b class="num">' + (p.buyerPays[1] > 0 ? rng(p.buyerPays) : '$0 (all included)') + '</b></div>' +
+    '</div></div>';
+
+  html += '<div class="modes">' + modesHtml + '</div>';
+
+  /* v3-1 Break-even */
+  if (inp.form === 'general' && p.breakInfo){
+    var bi = p.breakInfo;
+    var pct = Math.min(100, inp.vol / 28 * 100);
+    var bePct = Math.min(98, bi.beMid / 28 * 100);
+    var verdict, vcls;
+    if (inp.vol < bi.beLow){
+      verdict = 'Verdict: choose <b>LCL is better value</b>. LCL international leg ' + rng(bi.lclIntl) + ', a 20GP FCL costs ' + rng(bi.fcl20Intl) + ', FCL costs more by ' + rng([bi.fcl20Intl[0]-bi.lclIntl[1], bi.fcl20Intl[1]-bi.lclIntl[0]].map(function(x){return Math.max(0,x);})) + '  or so. Add about  ' + Math.max(0, bi.beLow - inp.vol).toFixed(1) + ' CBM to the break-even point, then switch to FCL.';
+      vcls = 'goodv';
+    } else if (inp.vol > bi.beHigh){
+      verdict = 'Verdict: <b>FCL is better value now</b>. A 20GP FCL costs ' + rng(bi.fcl20Intl) + ' vs LCL ' + rng(bi.lclIntl) + ', saving about ' + rng([Math.max(0, bi.lclIntl[0]-bi.fcl20Intl[1]), Math.max(0, bi.lclIntl[1]-bi.fcl20Intl[0])]) + ', and FCL means no sharing a container and no deconsolidation, so damage and delay risk is lower.' + (inp.vol > 28 ? ' This shipment exceeds the usable volume of a 20GP — see 40GP / 40HQ: 40GP ' + rng(bi.fcl40Intl) + '. ' : '');
+      vcls = 'goodv';
+    } else {
+      verdict = 'Verdict: right in the <b>break-even zone</b> (' + bi.beLow.toFixed(1) + '–' + bi.beHigh.toFixed(1) + ' CBM), LCL ' + rng(bi.lclIntl) + ' vs FCL 20GP ' + rng(bi.fcl20Intl) + ' prices are close. Prefer FCL here: the extra money buys an exclusive container, steadier transit and fewer deconsolidation charges at destination; if the cargo is not urgent and LCL deconsolidation waiting is acceptable, LCL works too.';
+      vcls = 'warnv';
+    }
+    html += '<div class="card"><h3><span class="k">⇄</span>LCL or FCL? Break-even guide</h3>' +
+      '<p class="sub">The break-even point is not a fixed 15 CBM — it is computed from the real rates on this lane: FCL price ÷ LCL rate per revenue tonne = break-even volume. LCL on this lane ' + rng(bi.lclPerCbm) + ' / revenue tonnes, 20GP FCL ' + rng(bi.fcl20Intl) + ', break-even point about <b>' + bi.beLow.toFixed(1) + '–' + bi.beHigh.toFixed(1) + ' CBM</b> (median ' + bi.beMid.toFixed(1) + ' CBM). </p>' +
+      '<div class="breakbar"><div class="fill" style="width:' + pct.toFixed(1) + '%"></div><div class="be" style="left:' + bePct.toFixed(1) + '%"></div></div>' +
+      '<div class="breaklabels"><span>Your volume ' + inp.vol + ' CBM</span><span>Break-even ' + bi.beMid.toFixed(1) + ' CBM (marker)</span><span>20GP usable 28 CBM</span></div>' +
+      '<table class="mini" style="margin-top:12px"><thead><tr><th>Option</th><th class="r">International leg</th><th class="r">Per CBM equivalent</th><th>Best for</th></tr></thead><tbody>' +
+      '<tr><td><b>LCL</b></td><td class="r num">' + rng(bi.lclIntl) + '</td><td class="r num">' + rng([bi.lclIntl[0]/Math.max(inp.vol,0.01), bi.lclIntl[1]/Math.max(inp.vol,0.01)]) + '</td><td>Volume &lt; break-even point</td></tr>' +
+      '<tr><td><b>FCL 20GP</b></td><td class="r num">' + rng(bi.fcl20Intl) + '</td><td class="r num">' + rng([bi.fcl20Intl[0]/Math.max(inp.vol,0.01), bi.fcl20Intl[1]/Math.max(inp.vol,0.01)]) + '</td><td>Volume &gt; break-even point</td></tr>' +
+      '<tr><td><b>FCL 40GP / 40HQ</b></td><td class="r num">' + rng(bi.fcl40Intl) + '</td><td class="r num">' + rng([bi.fcl40Intl[0]/Math.max(inp.vol,0.01), bi.fcl40Intl[1]/Math.max(inp.vol,0.01)]) + '</td><td>Over 28 CBM</td></tr>' +
+      '</tbody></table><div class="verdict ' + vcls + '">' + verdict + '</div></div>';
+  }
+
+  /* v3-2 Loading */
+  if (inp.load){
+    html += '<div class="card"><h3><span class="k">▦</span>Loading calculator result</h3><p class="sub">Calculated from the carton dimensions you entered in Step 2, test-packed in six orientations — read it together with the break-even point above: which container your cartons can fill, and how much is missing.</p>' + loadHtml(inp.load) + '</div>';
+  } else {
+    html += '<div class="card"><h3><span class="k">▦</span>Loading calculator</h3><p class="sub">No carton dimensions were entered for this shipment, so no loading plan was generated. Go back to Step 2, open the carton and loading calculator, enter the carton count and single-carton L/W/H, and it will work out how many cartons fit in a 20GP / 40GP / 40HQ, the utilization and the space left.</p></div>';
+  }
+
+  /* v3-3 Stage-by-stage transit */
+  var maxStage = Math.max.apply(null, p.stages.map(function(s){ return s.days[1]; }).concat([1]));
+  var stageHtml = p.stages.map(function(s, i){
+    return '<div class="stage"><span class="dot2">' + (i+1) + '</span><span><b>' + s.name + '</b><small>' + esc(s.desc) + '</small><span class="stagebar"><i style="width:' + Math.round(s.days[1]/maxStage*100) + '%"></i></span></span><span class="sdays num">' + s.days[0] + '–' + s.days[1] + ' days</span></div>';
+  }).join('');
+  html += '<div class="card"><h3><span class="k">◷</span>Stage-by-stage transit · Where the time goes</h3><p class="sub">Door to door is not a single number: booking, operations, mainline, clearance, delivery and buffer are broken out below. Total approx. <b>' + p.stageTotal[0] + '–' + p.stageTotal[1] + ' days</b> (the quick view of the recommended mode shows mainline approximations; schedule by the stage totals in this table). Plan sales and restocking on the upper bound of the total, not the fastest figure.</p><div class="timeline">' + stageHtml + '</div></div>';
+
+  /* v3-4 Chargeable-weight transparency */
+  var ci = p.chargeInfo;
+  function vsBox(label, val, win){ return '<div class="vsbox' + (win ? ' win' : '') + '"><small>' + label + '</small><b class="num">' + val + '</b></div>'; }
+  html += '<div class="card"><h3><span class="k">⚖</span>Chargeable-weight transparency · What weight is the money charged on?</h3>' +
+    '<p class="sub">Carriers do not charge on actual weight alone: bulky light cargo is charged on volumetric weight — whichever is greater — then rounded up. Below, the divisor, formula, greater-of rule and rounding for this shipment are all laid out for each mode.</p>' +
+    '<div class="formula">Base data for this shipment: actual weight <code>' + Math.round(ci.weight) + ' kg</code> · volume <code>' + ci.vol + ' CBM</code> · Ocean revenue tonnes <code>' + ci.sea.revTon.toFixed(2) + '</code><br />' +
+    'Air volumetric weight = L×W×H (cm) ÷ <code>6000</code> ≈ CBM × 167 = <code>' + Math.round(ci.air.volW) + ' kg</code>; Express volumetric weight ÷ <code>5000</code> ≈ CBM × 200 = <code>' + Math.round(ci.express.volW) + ' kg</code>; ocean LCL uses <code>1 CBM = 1 revenue tonne</code>, whichever is greater against tonnes.</div>' +
+    '<div class="vsgrid">' + vsBox('actual weight', Math.round(ci.weight) + ' kg', ci.weight >= ci.air.volW) + 'Greater of the two →' + vsBox('Air volumetric weight', Math.round(ci.air.volW) + ' kg', ci.air.volW > ci.weight) + '</div>' +
+    '<table class="mini"><thead><tr><th>Mode</th><th>Formula</th><th class="r">After greater-of</th><th class="r">Chargeable weight after rounding</th><th>Rounding rule</th></tr></thead><tbody>' +
+    '<tr><td><b>Air freight</b></td><td>max(actual weight, CBM×167)</td><td class="r num">' + Math.round(ci.air.raw) + ' kg</td><td class="r num"><b>' + ci.air.rounded + ' kg</b></td><td>' + ci.air.rule + '</td></tr>' +
+    '<tr><td><b>Commercial express</b></td><td>max(actual weight, CBM×200)</td><td class="r num">' + Math.round(ci.express.raw) + ' kg</td><td class="r num"><b>' + ci.express.rounded + ' kg</b></td><td>' + ci.express.rule + '</td></tr>' +
+    '<tr><td><b>Ocean LCL</b></td><td>max(CBM, tonnes)</td><td class="r num">' + ci.sea.revTon.toFixed(2) + ' revenue tonnes</td><td class="r num"><b>' + ci.sea.rounded.toFixed(1) + ' revenue tonnes</b></td><td>' + ci.sea.rule + '</td></tr>' +
+    '<tr><td><b>Ocean FCL / bulk carrier</b></td><td>Per container / per tonne, not by volumetric weight</td><td class="r num">—</td><td class="r num"><b>' + (p.isFCL ? p.fclType + ' the FCL price' : Math.round(ci.weight/1000*10)/10 + ' tonnes') + '</b></td><td>FCL is about loading utilization; bulk is about total tonnage</td></tr>' +
+    '</tbody></table>' +
+    '<p class="hint" style="margin-top:10px">Why bulky light cargo is expensive by air: the air chargeable weight of this shipment vs actual weight' + (ci.air.raw > ci.weight ? 'exceeds it by ' + Math.round(ci.air.raw - ci.weight) + ' kg, is volumetric weight — compressing packaging, vacuum-packing and shrinking carton sizes cut chargeable weight directly.' : 'did not increase it — actual weight dominates, so compressing volume will not cut the air rate; control weight first.') + ' At formal quotation the carrier re-weighs and re-measures, and billing settles on the re-measured chargeable weight.</p></div>';
+
+  html += '<div class="card"><h3><span class="k">$</span>Cost detail (four-leg breakdown)</h3>' +
+    '<table class="cost"><thead><tr><th>Cost leg</th><th>Payer</th><th class="r">Amount range (USD)</th></tr></thead><tbody>' +
+    segRows +
+    '<tr class="total"><td>Total door-to-door cost</td><td></td><td class="r num">' + rng(p.total) + '</td></tr>' +
+    '</tbody></table>' +
+    '<p class="hint" style="margin-top:10px">Payer allocation follows  ' + esc(inp.term) + ' term allocation; cargo value  ' + money(inp.value) + ' itself (the goods payment) is not in the table above. The international leg includes common fuel and peak-season surcharge movements; FCL also includes drayage in the origin leg.</p></div>';
+
+  html += '<div class="card"><h3><span class="k">%</span>Tax detail · ' + esc(c.zh) + '</h3><div class="taxgrid">' +
+    '<div class="taxbox"><small>Duty rate (' + esc(cat.label) + (inp.country.dutyFlat != null ? ', flat national rate' : '') + ')</small><b class="num"><span class="rate">' + p.dutyRate[0] + (p.dutyRate[1] !== p.dutyRate[0] ? '–' + p.dutyRate[1] : '') + '%</span></b><br /><small>Duty amount (on cargo value)</small><b class="num">' + rng(p.dutyAmt) + '</b></div>' +
+    '<div class="taxbox"><small>' + esc(c.vatName) + '</small><b class="num"><span class="rate">' + p.vatRate + '%</span></b><br /><small>VAT amount (base =  = cargo value + freight + duty)</small><b class="num">' + (p.vatRate > 0 ? rng(p.vatAmt) : '$0') + '</b></div>' +
+    '</div><p class="hint" style="margin-top:10px">Taxes are already included in the Taxes leg of the four-leg breakdown above and in the total door-to-door cost.' + (inp.hs ? 'Estimated along the HS code you entered; we will recheck the rate against the full code before booking.' : 'Without an HS code, duty is estimated at generic category rates; providing an accurate HS code narrows the range.') + '</p></div>';
+
+  html += '<div class="card"><h3><span class="k">✓</span>Export and clearance document checklist</h3><div class="docs">' +
+    docGroup('1. Export declaration (China side)', p.docs.base) +
+    docGroup('2. Destination clearance · ' + esc(c.zh), p.docs.dest) +
+    (p.docs.cat.length ? docGroup('3. Category-specific documents · ' + esc(cat.label), p.docs.cat) : '') +
+    '</div></div>';
+
+  html += '<div class="card"><h3><span class="k">!</span>Important notes</h3><ul class="warnlist">' +
+    warnings.map(function(w){ return '<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg><span>' + esc(w) + '</span></li>'; }).join('') +
+    '</ul></div>';
+
+  $('result').innerHTML = html;
+
+  /* WhatsApp booking link + download text */
+  var summary = 'Hello, I just used the Free Freight Assistant on the Yinghuo International website to work out a shipment, and I would like to book / confirm pricing on this plan:\n' +
+    'Product: ' + inp.name + ' (' + cat.label + ')\n' +
+    'Route: ' + inp.oLabel + ' → ' + c.zh + ' ' + inp.city + '\n' +
+    'Weight/volume: ' + inp.weight + ' kg / ' + inp.vol + ' CBM, cargo value ' + money(inp.value) + '\n' +
+    'Recommended plan: ' + p.modeName + ', estimated total cost ' + rng(p.total) + ', transit ' + p.days[0] + '–' + p.days[1] + ' days (' + inp.term + ')\n' +
+    'My contact: ' + (lead ? lead.contact : '');
+  $('waBtn').href = 'https://wa.me/8613362927411?text=' + encodeURIComponent(summary);
+  lastPlan.text = buildText(p, summary);
+  /* Email: compact plan + registered lead to the company inbox (full version in the .txt download) */
+  var mailBody = summary + '\n\nFour-leg cost breakdown:\n' +
+    p.segs.map(function(s){ return '· ' + s.name + ': ' + rng(s.amt) + ' — ' + s.desc; }).join('\n') +
+    '\nTotal door-to-door cost (estimate): ' + rng(p.total) +
+    '\nTaxes: duty  ' + p.dutyRate[0] + (p.dutyRate[1] !== p.dutyRate[0] ? '–' + p.dutyRate[1] : '') + '% (' + rng(p.dutyAmt) + '); ' + esc(c.vatName) + ' ' + p.vatRate + '% (' + (p.vatRate > 0 ? rng(p.vatAmt) : '$0') + ')' +
+    '\n\nNote: amounts are estimate ranges; the binding price is the written quote from the forwarder.';
+  $('mailBtn').href = 'mailto:xhwm41319@gmail.com?subject=' +
+    encodeURIComponent('Freight plan price check · ' + inp.name + ' · ' + inp.oLabel + ' → ' + c.zh + ' ' + inp.city) +
+    '&body=' + encodeURIComponent(mailBody);
+}
+function buildText(p, summary){
+  var inp = p.inp, c = inp.countryRaw, cat = CATS[inp.catKey];
+  var L = [];
+  L.push('[Yiwu Yinghuo International · Free Freight Assistant Shipping Plan】');
+  L.push('Route: ' + inp.oLabel + ' → ' + c.zh + ' ' + inp.city + (inp.addr ? ' (' + inp.addr + ')' : ''));
+  L.push('Product: ' + inp.name + ' (' + cat.label + (inp.hs ? ', HS ' + inp.hs : '') + ')');
+  L.push('Data: ' + (inp.qty ? inp.qty + ' pcs, ' : '') + inp.weight + ' kg, ' + inp.vol + ' CBM, cargo value ' + money(inp.value) + ', term ' + inp.term);
+  L.push('');
+  L.push('Recommended: ' + p.modeName + ' door-to-door');
+  L.push('Reason: ' + p.reason);
+  L.push('Total door-to-door cost (estimate): ' + rng(p.total) + '; Transit: ' + p.days[0] + '–' + p.days[1] + ' days');
+  L.push('');
+  L.push('Mode comparison (international leg): ');
+  p.modes.forEach(function(m){ L.push('· ' + m.name + ': ' + rng(m.price) + ' (' + m.per + '), about ' + m.days[0] + '–' + m.days[1] + ' days' + (m.key === p.pick ? ' ← recommended' : '')); });
+  L.push('');
+  L.push('Four-leg cost breakdown:');
+  p.segs.forEach(function(s){ L.push('· ' + s.name + ': ' + rng(s.amt) + ' — ' + s.desc); });
+  L.push('');
+  if (p.breakInfo && inp.form === 'general'){
+    L.push('LCL/FCL break-even: the break-even point on this lane is about ' + p.breakInfo.beLow.toFixed(1) + '–' + p.breakInfo.beHigh.toFixed(1) + ' CBM; LCL ' + rng(p.breakInfo.lclIntl) + ', 20GP ' + rng(p.breakInfo.fcl20Intl) + ', 40GP ' + rng(p.breakInfo.fcl40Intl) + '; Your volume ' + inp.vol + ' CBM. ');
+  }
+  if (inp.load){
+    L.push('Loading: single carton  ' + inp.load.L + '×' + inp.load.W + '×' + inp.load.H + ' cm, total ' + inp.load.count + ' cartons = ' + inp.load.totalVol.toFixed(2) + ' CBM; recommended ' + inp.load.rec.cont.key + (inp.load.rec.need===1 ? ' ×1, utilization ' + inp.load.rec.util.toFixed(1) + '%' : ' ×' + inp.load.rec.need) + '. ');
+    inp.load.rows.forEach(function(r){ L.push('· ' + r.cont.key + ': max ' + r.fit + ' cartons, needs ' + r.need + '  container(s), utilization  ' + r.util.toFixed(1) + '%, remaining ' + r.remainVol.toFixed(1) + ' CBM'); });
+  }
+  L.push('');
+  L.push('Stage-by-stage transit (total ' + p.stageTotal[0] + '–' + p.stageTotal[1] + ' days): ');
+  p.stages.forEach(function(s){ L.push('· ' + s.name + ': ' + s.days[0] + '–' + s.days[1] + ' days — ' + s.desc); });
+  L.push('');
+  L.push('Chargeable-weight transparency: actual weight ' + Math.round(p.chargeInfo.weight) + ' kg, volume ' + p.chargeInfo.vol + ' CBM; Air volumetric weight ' + Math.round(p.chargeInfo.air.volW) + ' kg (÷6000), greater taken: ' + Math.round(p.chargeInfo.air.raw) + ' kg, after rounding ' + p.chargeInfo.air.rounded + ' kg; Express volumetric weight ' + Math.round(p.chargeInfo.express.volW) + ' kg (÷5000), rounded to ' + p.chargeInfo.express.rounded + ' kg; Ocean revenue tonnes ' + p.chargeInfo.sea.revTon.toFixed(2) + ', after rounding ' + p.chargeInfo.sea.rounded.toFixed(1) + '. ');
+  L.push('');
+  L.push('Taxes: duty  ' + p.dutyRate[0] + (p.dutyRate[1] !== p.dutyRate[0] ? '–' + p.dutyRate[1] : '') + '% (' + rng(p.dutyAmt) + '); ' + c.vatName + ' ' + p.vatRate + '% (' + (p.vatRate > 0 ? rng(p.vatAmt) : '$0') + ')');
+  L.push('');
+  L.push('Document checklist:');
+  [['Export declaration', p.docs.base], ['Destination clearance', p.docs.dest], ['Category-specific documents', p.docs.cat]].forEach(function(g){
+    if (!g[1].length) return;
+    L.push('[' + g[0] + ']');
+    g[1].forEach(function(d){ L.push('· ' + d[0] + ' (' + d[2] + '): ' + d[1]); });
+  });
+  L.push('');
+  L.push('Note: all amounts are estimate ranges; the binding price is the written quote from the forwarder, and duty is finally ruled by destination customs.');
+  L.push('Price-check contact: Yiwu Yinghuo International Trade Co., Ltd.· WhatsApp +86 133 6292 7411 · xhwm41319@gmail.com');
+  L.push('');
+  L.push(summary.split('\n').slice(1).join('\n'));
+  return L.join('\n');
+}
+$('dlBtn').addEventListener('click', function(){
+  if (!lastPlan) return;
+  var blob = new Blob([lastPlan.text], { type:'text/plain;charset=utf-8' });
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'freight-plan-' + lastPlan.inp.countryRaw.zh + '-' + lastPlan.inp.name + '.txt';
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 400);
+});
+$('editBtn').addEventListener('click', function(){ goStep(2); });
+</script>
+</body>
+</html>
