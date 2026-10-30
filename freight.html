@@ -1312,9 +1312,10 @@ $('shipForm').addEventListener('submit', function(e){
   inp.isPortCity = isPortCity;
   inp.countryRaw = c;
 
+  var cat = CATS[inp.catKey];
   lastPlan = computePlan(inp);
   lastPlan.inp = inp;
-  lastPlan.docs = buildDocs(inp, c, CATS[inp.catKey]);
+  lastPlan.docs = buildDocs(inp, c, cat);
 
   var submitBtn = document.querySelector('#shipForm button[type="submit"]');
   var origBtnHtml = submitBtn ? submitBtn.innerHTML : '';
@@ -1329,7 +1330,7 @@ $('shipForm').addEventListener('submit', function(e){
     contact_value: lead ? lead.contact : '',
     origin: inp.oLabel,
     destination: (c.en || c.zh) + ' · ' + inp.city,
-    cargo_summary: inp.name + ' (' + cat.label + (inp.hs ? ', HS ' + inp.hs : '') + '), ' + (inp.qty ? inp.qty + ' pcs, ' : '') + inp.weight + ' kg, ' + inp.vol + ' CBM, value $' + inp.value + ', term ' + inp.term,
+    cargo_summary: inp.name + ' (' + (cat ? cat.label : 'General') + (inp.hs ? ', HS ' + inp.hs : '') + '), ' + (inp.qty ? inp.qty + ' pcs, ' : '') + inp.weight + ' kg, ' + inp.vol + ' CBM, value $' + inp.value + ', term ' + inp.term,
     quote_summary: lastPlan.modeName + ' door-to-door, total est ' + rng(lastPlan.total) + ', transit ' + lastPlan.days[0] + '–' + lastPlan.days[1] + ' days (' + inp.term + ')',
     timestamp: new Date().toISOString()
   };
