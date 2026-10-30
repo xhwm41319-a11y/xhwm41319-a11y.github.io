@@ -1937,6 +1937,10 @@ function renderPayPalButton() {
     return;
   }
   container.dataset.rendered = "true";
+  // Guard flag: createOrder throws on missing email, then the SDK calls
+  // onError — without this flag onError would overwrite the specific
+  // missing-email notice with the generic PayPal error.
+  let paypalMissingEmail = false;
   paypal.Buttons({
     style: {
       layout: 'vertical',
@@ -1949,6 +1953,7 @@ function renderPayPalButton() {
       const emailInput = document.getElementById("buyer-email");
       const email = emailInput.value.trim();
       if (!email || !email.includes("@") || !email.includes(".")) {
+        paypalMissingEmail = true;
         showCheckoutNotice("Please enter your email first, then click PayPal");
         emailInput.focus();
         throw new Error("Missing email");
@@ -2002,6 +2007,12 @@ function renderPayPalButton() {
     },
     onError: function(err) {
       console.error("PayPal Error:", err);
+      if (paypalMissingEmail) {
+        paypalMissingEmail = false;
+        showCheckoutNotice("Please enter your email first, then click PayPal");
+        document.getElementById("buyer-email").focus();
+        return;
+      }
       showCheckoutNotice("Something went wrong with PayPal checkout. Please try again or pay with USDT (Solana).");
     }
   }).render('#paypal-button-container');
