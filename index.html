@@ -644,6 +644,12 @@
   box-shadow: 0 0 0 2px rgba(37,99,235,0.1);
 }
 
+.usdt-email-section .email-hint {
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 6px;
+}
+
 .btn-pay-confirm {
   width: 100%;
   background: #2563eb;
@@ -1803,6 +1809,12 @@
           <span id="checkout-amount-display" class="amount">9.90 USDT</span>
         </div>
 
+        <div class="usdt-email-section">
+          <label for="buyer-email">Email for delivery (required) <span class="required">*</span></label>
+          <div class="email-hint">Use your PayPal email — we'll send your download link here.</div>
+          <input type="email" id="buyer-email" placeholder="your-email@domain.com" required>
+        </div>
+
         <div class="usdt-address-section">
           <label>Official receiving address (Solana network):</label>
           <div class="address-copy-bar">
@@ -1810,11 +1822,6 @@
             <button type="button" class="btn-copy" onclick="copyWalletAddress()">Copy</button>
           </div>
           <div id="copy-toast" class="copy-toast" style="display: none;">Copied to clipboard ✓</div>
-        </div>
-
-        <div class="usdt-email-section">
-          <label for="buyer-email">Email to receive the data pack (required) <span class="required">*</span>:</label>
-          <input type="email" id="buyer-email" placeholder="your-email@domain.com" required>
         </div>
 
         <div id="checkout-notice" role="alert" style="display: none; margin-bottom: 14px; padding: 10px 12px; border-radius: 6px; background: #fef2f2; border: 1px solid #fecaca; color: #b91c1c; font-size: 13px; line-height: 1.5;"></div>
@@ -1942,7 +1949,7 @@ function renderPayPalButton() {
       const emailInput = document.getElementById("buyer-email");
       const email = emailInput.value.trim();
       if (!email || !email.includes("@") || !email.includes(".")) {
-        showCheckoutNotice("Please enter the email for receiving the data pack above, then click PayPal to pay!");
+        showCheckoutNotice("Please enter your email first, then click PayPal");
         emailInput.focus();
         throw new Error("Missing email");
       }
