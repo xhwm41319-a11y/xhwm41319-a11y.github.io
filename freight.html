@@ -1,9 +1,10 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" translate="no" class="notranslate">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="color-scheme" content="light dark" />
+    <meta name="google" content="notranslate" />
     <link rel="icon" href="data:," />
     <title>Free Freight Assistant · Free International Freight Estimate | Yiwu Yinghuo International Trade</title>
     <meta name="description" content="Any origin to any destination: FCL/LCL ocean freight, bulk carriers, breakbulk, air freight, express and postal parcels, rail/truck — four-leg cost breakdown, duty and VAT estimates, and export/clearance document checklists — all worked out in one go. Yiwu Yinghuo International Trade Co., Ltd." />
@@ -824,7 +825,7 @@ function submitFreightLead(payload, cb){
       leadSubmitStatus = 'failed';
       if (cb) cb(false, 'timeout');
     }
-  }, 3500);
+  }, 7000);
 
   try {
     fetch('https://download.yiwuyinghuo.com/api/freight-leads', {
